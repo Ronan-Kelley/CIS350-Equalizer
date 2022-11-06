@@ -1,6 +1,6 @@
 ﻿namespace Equalizer
 {
-    partial class Form1
+    partial class _form_eq
     {
         /// <summary>
         ///  Required designer variable.
@@ -31,6 +31,7 @@
             this._txt_fileName = new System.Windows.Forms.TextBox();
             this._btn_browse = new System.Windows.Forms.Button();
             this._musicFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this._btn_playpause = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // _txt_fileName
@@ -54,15 +55,25 @@
             // 
             this._musicFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog1_FileOk);
             // 
-            // Form1
+            // _btn_playpause
+            // 
+            this._btn_playpause.Location = new System.Drawing.Point(12, 41);
+            this._btn_playpause.Name = "_btn_playpause";
+            this._btn_playpause.Size = new System.Drawing.Size(75, 23);
+            this._btn_playpause.TabIndex = 2;
+            this._btn_playpause.UseVisualStyleBackColor = true;
+            this._btn_playpause.Click += new System.EventHandler(this.button1_Click_1);
+            // 
+            // _form_eq
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this._btn_playpause);
             this.Controls.Add(this._btn_browse);
             this.Controls.Add(this._txt_fileName);
-            this.Name = "Form1";
-            this.Text = "Form1";
+            this.Name = "_form_eq";
+            this.Text = "Equalizer Project";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -73,5 +84,6 @@
         private TextBox _txt_fileName;
         private Button _btn_browse;
         private OpenFileDialog _musicFileDialog;
+        private Button _btn_playpause;
     }
 }
