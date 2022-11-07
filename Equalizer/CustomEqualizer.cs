@@ -17,7 +17,9 @@ public class CustomEqualizer : ISampleProvider
 	private readonly int _bandCount;
 	private bool _updated;
 
-	public CustomEqualizer(ISampleProvider sourceProvider, EqualizerBand[] bands)
+    public WaveFormat WaveFormat => _sourceProvider.WaveFormat;
+
+    public CustomEqualizer(ISampleProvider sourceProvider, EqualizerBand[] bands)
 	{
 		_sourceProvider = sourceProvider;
 		_bands = bands;
