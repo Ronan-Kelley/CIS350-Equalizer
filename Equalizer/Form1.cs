@@ -58,13 +58,13 @@ namespace Equalizer
             _musicFileDialog.Filter  = _filterText + "|" + _filterFilter;
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void _btwn_browse_Click(object sender, EventArgs e)
         {
             // open the file picker dialog when browse is clicked
             _musicFileDialog.ShowDialog();
         }
 
-        private void openFileDialog1_FileOk(object sender, System.ComponentModel.CancelEventArgs e)
+        private void _musicFileDialog_FileOk(object sender, System.ComponentModel.CancelEventArgs e)
         {
             // display the selected file's path
             _txt_fileName.Text = _musicFileDialog.FileName;
@@ -74,7 +74,7 @@ namespace Equalizer
             _btn_playpause.Text = _mediaPlay;
         }
 
-        private void button1_Click_1(object sender, EventArgs e)
+        private void _btn_playpause_Click(object sender, EventArgs e)
         {
             if (_btn_playpause.Text == _mediaPlay)
             {

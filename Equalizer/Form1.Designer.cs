@@ -51,11 +51,11 @@
             this._btn_browse.TabIndex = 1;
             this._btn_browse.Text = "Browse";
             this._btn_browse.UseVisualStyleBackColor = true;
-            this._btn_browse.Click += new System.EventHandler(this.button1_Click);
+            this._btn_browse.Click += new System.EventHandler(this._btwn_browse_Click);
             // 
             // _musicFileDialog
             // 
-            this._musicFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog1_FileOk);
+            this._musicFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this._musicFileDialog_FileOk);
             // 
             // _btn_playpause
             // 
@@ -64,7 +64,7 @@
             this._btn_playpause.Size = new System.Drawing.Size(22, 23);
             this._btn_playpause.TabIndex = 2;
             this._btn_playpause.UseVisualStyleBackColor = true;
-            this._btn_playpause.Click += new System.EventHandler(this.button1_Click_1);
+            this._btn_playpause.Click += new System.EventHandler(this._btn_playpause_Click);
             // 
             // _tb_volume
             // 
