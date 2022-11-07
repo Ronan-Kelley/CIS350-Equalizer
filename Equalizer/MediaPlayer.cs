@@ -97,6 +97,24 @@ public class MediaPlayer
         }
     }
 
+    public void setPositionPercent(float percentDone)
+    {
+        // clamp percentDone
+        if (percentDone > 100f)
+        {
+            percentDone = 100f;
+        } else if (percentDone < 0f)
+        {
+            percentDone = 0f;
+        }
+
+        // assign the value
+        if (audioFile != null)
+        {
+            audioFile.Position = (long) (audioFile.Length / 100 * (percentDone));
+        }
+    }
+
     public bool isReady()
     {
         return (outputDevice != null && audioFile != null);
