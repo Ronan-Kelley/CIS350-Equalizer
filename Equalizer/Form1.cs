@@ -22,10 +22,17 @@ namespace Equalizer
             InitializeComponent();
 
             //
-            // set up multimedia buttons
+            // set up multimedia components
             //
 
+            // play/pause button
             _btn_playpause.Text = _mediaPlay;
+
+            // volume slider
+            _tb_volume.Minimum = 0;
+            _tb_volume.Maximum = 100;
+            _tb_volume.Value = 100;
+            _tb_volume.TickFrequency = 10;
 
             //
             // set up file picker filters
@@ -81,6 +88,11 @@ namespace Equalizer
                 _btn_playpause.Text = _mediaPlay;
                 _media.Pause();
             }
+        }
+
+        private void _tb_volume_Scroll(object sender, EventArgs e)
+        {
+            _media.setVolumePercentage(_tb_volume.Value);
         }
     }
 }

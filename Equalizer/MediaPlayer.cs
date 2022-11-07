@@ -79,6 +79,24 @@ public class MediaPlayer
         curFilePath = null;
     }
 
+    public void setVolumePercentage(float volume)
+    {
+        // clamp passed value
+        if (volume > 100f)
+        {
+            volume = 100f;
+        } else if (volume < 0f)
+        {
+            volume = 0f;
+        }
+
+        // set volume
+        if (outputDevice != null)
+        {
+            outputDevice.Volume = volume / 100f;
+        }
+    }
+
     public bool isReady()
     {
         return (outputDevice != null && audioFile != null);

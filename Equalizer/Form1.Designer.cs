@@ -32,6 +32,8 @@
             this._btn_browse = new System.Windows.Forms.Button();
             this._musicFileDialog = new System.Windows.Forms.OpenFileDialog();
             this._btn_playpause = new System.Windows.Forms.Button();
+            this._tb_volume = new System.Windows.Forms.TrackBar();
+            ((System.ComponentModel.ISupportInitialize)(this._tb_volume)).BeginInit();
             this.SuspendLayout();
             // 
             // _txt_fileName
@@ -64,16 +66,26 @@
             this._btn_playpause.UseVisualStyleBackColor = true;
             this._btn_playpause.Click += new System.EventHandler(this.button1_Click_1);
             // 
+            // _tb_volume
+            // 
+            this._tb_volume.Location = new System.Drawing.Point(40, 41);
+            this._tb_volume.Name = "_tb_volume";
+            this._tb_volume.Size = new System.Drawing.Size(104, 45);
+            this._tb_volume.TabIndex = 3;
+            this._tb_volume.Scroll += new System.EventHandler(this._tb_volume_Scroll);
+            // 
             // _form_eq
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this._tb_volume);
             this.Controls.Add(this._btn_playpause);
             this.Controls.Add(this._btn_browse);
             this.Controls.Add(this._txt_fileName);
             this.Name = "_form_eq";
             this.Text = "Equalizer Project";
+            ((System.ComponentModel.ISupportInitialize)(this._tb_volume)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -85,5 +97,6 @@
         private Button _btn_browse;
         private OpenFileDialog _musicFileDialog;
         private Button _btn_playpause;
+        private TrackBar _tb_volume;
     }
 }
