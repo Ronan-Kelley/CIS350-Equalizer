@@ -31,6 +31,7 @@ public class MediaPlayer
             outputDevice = new WaveOutEvent();
             // set up a handler for the PlaybackStopped event (defined below)
             outputDevice.PlaybackStopped += OnPlaybackStopped;
+            outputDevice.Volume = 1;
         }
         // initialize the audio file if the path exists
         if (File.Exists(filePath))
@@ -52,6 +53,11 @@ public class MediaPlayer
     {
         if (outputDevice != null)
         {
+            // if song is over, restart it
+            if ( audioFile != null && audioFile.Length >= audioFile.Position)
+            {
+                audioFile.Position = 0;
+            }
             outputDevice.Play();
         }
     }

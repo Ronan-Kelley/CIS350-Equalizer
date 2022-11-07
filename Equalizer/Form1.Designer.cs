@@ -98,6 +98,5 @@
         private OpenFileDialog _musicFileDialog;
         private Button _btn_playpause;
         private TrackBar _tb_volume;
-        private Button button1;
     }
 }
