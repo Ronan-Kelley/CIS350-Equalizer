@@ -33,6 +33,7 @@
             this._musicFileDialog = new System.Windows.Forms.OpenFileDialog();
             this._btn_playpause = new System.Windows.Forms.Button();
             this._tb_volume = new System.Windows.Forms.TrackBar();
+            this._btn_tmp = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this._tb_volume)).BeginInit();
             this.SuspendLayout();
             // 
@@ -74,11 +75,22 @@
             this._tb_volume.TabIndex = 3;
             this._tb_volume.Scroll += new System.EventHandler(this._tb_volume_Scroll);
             // 
+            // _btn_tmp
+            // 
+            this._btn_tmp.Location = new System.Drawing.Point(191, 47);
+            this._btn_tmp.Name = "_btn_tmp";
+            this._btn_tmp.Size = new System.Drawing.Size(75, 23);
+            this._btn_tmp.TabIndex = 4;
+            this._btn_tmp.Text = "do stuff!";
+            this._btn_tmp.UseVisualStyleBackColor = true;
+            this._btn_tmp.Click += new System.EventHandler(this._btn_tmp_Click);
+            // 
             // _form_eq
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this._btn_tmp);
             this.Controls.Add(this._tb_volume);
             this.Controls.Add(this._btn_playpause);
             this.Controls.Add(this._btn_browse);
@@ -98,5 +110,6 @@
         private OpenFileDialog _musicFileDialog;
         private Button _btn_playpause;
         private TrackBar _tb_volume;
+        private Button _btn_tmp;
     }
 }

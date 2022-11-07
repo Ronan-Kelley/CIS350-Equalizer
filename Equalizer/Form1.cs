@@ -17,6 +17,8 @@ namespace Equalizer
         // player object
         private MediaPlayer _media = new();
 
+        private RealTimeEq _rteq = new();
+
         public _form_eq()
         {
             InitializeComponent();
@@ -93,6 +95,11 @@ namespace Equalizer
         private void _tb_volume_Scroll(object sender, EventArgs e)
         {
             _media.setVolumePercentage(_tb_volume.Value);
+        }
+
+        private void _btn_tmp_Click(object sender, EventArgs e)
+        {
+            _rteq.doThings();
         }
     }
 }
