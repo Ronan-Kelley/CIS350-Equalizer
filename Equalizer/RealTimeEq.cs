@@ -3,6 +3,7 @@ using NAudio.Dsp;
 using NAudio.Wave;
 using NAudio.Wave.SampleProviders;
 using NAudio.CoreAudioApi;
+using System.Diagnostics;
 
 public class RealTimeEq
 {
@@ -16,12 +17,20 @@ public class RealTimeEq
 	private WaveFileWriter _writer;
 	private string _savePath;
 
+	// Temporary solution to fix feedback
+	private MMDeviceEnumerator _devicesEnumerator;
+	private MMDevice[] _devices;
+
 	public RealTimeEq()
 	{
-		_waveIn = new WasapiLoopbackCapture();
+		// Testing separate outputs
+		_devicesEnumerator = new MMDeviceEnumerator();
+		_devices = _devicesEnumerator.EnumerateAudioEndPoints(DataFlow.All, DeviceState.Active).ToArray();
+
+		_waveIn = new WasapiLoopbackCapture(_devices[0]);
 		_bufWaveProvider = new BufferedWaveProvider(_waveIn.WaveFormat);
 		_volumeProvider = new VolumeSampleProvider(_bufWaveProvider.ToSampleProvider());
-		_wasapiOut = new WasapiOut(AudioClientShareMode.Shared, 0);
+		_wasapiOut = new WasapiOut(_devices[1], AudioClientShareMode.Shared, true, 0);
 		_filter = BiQuadFilter.PeakingEQ(_waveIn.WaveFormat.SampleRate, 1000, .2f, 20);
 
         // Outputs recordingWithEQ.wav in desktop folder
@@ -52,7 +61,7 @@ public class RealTimeEq
 				_writer.Dispose();
 			}
 
-			//_bufWaveProvider.AddSamples(e.Buffer, 0, e.BytesRecorded);
+			_bufWaveProvider.AddSamples(e.Buffer, 0, e.BytesRecorded);
             _volumeProvider.Volume = .8f;
         };
     }
