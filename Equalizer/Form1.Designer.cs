@@ -77,11 +77,11 @@
             // 
             // _btn_tmp
             // 
-            this._btn_tmp.Location = new System.Drawing.Point(191, 47);
+            this._btn_tmp.Location = new System.Drawing.Point(188, 41);
             this._btn_tmp.Name = "_btn_tmp";
-            this._btn_tmp.Size = new System.Drawing.Size(75, 23);
+            this._btn_tmp.Size = new System.Drawing.Size(303, 23);
             this._btn_tmp.TabIndex = 4;
-            this._btn_tmp.Text = "do stuff!";
+            this._btn_tmp.Text = "Save 10 seconds of audio with EQ to desktop folder\r\n";
             this._btn_tmp.UseVisualStyleBackColor = true;
             this._btn_tmp.Click += new System.EventHandler(this._btn_tmp_Click);
             // 
