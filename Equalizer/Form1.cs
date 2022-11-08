@@ -1,5 +1,6 @@
 using NAudio.Wave;
 using NAudio.Wave.SampleProviders;
+using System.Diagnostics;
 
 namespace Equalizer
 {
@@ -100,6 +101,16 @@ namespace Equalizer
         private void _btn_tmp_Click(object sender, EventArgs e)
         {
             _rteq.doThings();
+        }
+
+        private void trackBar1_ValueChanged(object sender, EventArgs e) {
+            var bar = sender as TrackBar;
+            var eqMin = 50;
+            var eqMax = 16000;
+            var percent = (float)bar.Value / (float)bar.Maximum;
+            var finalEQFreq = eqMin + (percent*(eqMax - eqMin));
+            Debug.Print(finalEQFreq.ToString());
+            _rteq.setFilter(finalEQFreq, 0.2f, 20);
         }
     }
 }

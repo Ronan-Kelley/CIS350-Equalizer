@@ -34,7 +34,9 @@
             this._btn_playpause = new System.Windows.Forms.Button();
             this._tb_volume = new System.Windows.Forms.TrackBar();
             this._btn_tmp = new System.Windows.Forms.Button();
+            this.trackBar1 = new System.Windows.Forms.TrackBar();
             ((System.ComponentModel.ISupportInitialize)(this._tb_volume)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.SuspendLayout();
             // 
             // _txt_fileName
@@ -85,11 +87,21 @@
             this._btn_tmp.UseVisualStyleBackColor = true;
             this._btn_tmp.Click += new System.EventHandler(this._btn_tmp_Click);
             // 
+            // trackBar1
+            // 
+            this.trackBar1.Location = new System.Drawing.Point(188, 271);
+            this.trackBar1.Name = "trackBar1";
+            this.trackBar1.Size = new System.Drawing.Size(401, 45);
+            this.trackBar1.TabIndex = 5;
+            this.trackBar1.TickStyle = System.Windows.Forms.TickStyle.Both;
+            this.trackBar1.ValueChanged += new System.EventHandler(this.trackBar1_ValueChanged);
+            // 
             // _form_eq
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.trackBar1);
             this.Controls.Add(this._btn_tmp);
             this.Controls.Add(this._tb_volume);
             this.Controls.Add(this._btn_playpause);
@@ -98,6 +110,7 @@
             this.Name = "_form_eq";
             this.Text = "Equalizer Project";
             ((System.ComponentModel.ISupportInitialize)(this._tb_volume)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -111,5 +124,6 @@
         private Button _btn_playpause;
         private TrackBar _tb_volume;
         private Button _btn_tmp;
+        private TrackBar trackBar1;
     }
 }

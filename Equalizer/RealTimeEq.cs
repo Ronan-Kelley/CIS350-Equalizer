@@ -4,6 +4,7 @@ using NAudio.Wave;
 using NAudio.Wave.SampleProviders;
 using NAudio.CoreAudioApi;
 using System.Diagnostics;
+using System.Net;
 
 public class RealTimeEq
 {
@@ -31,7 +32,7 @@ public class RealTimeEq
 		_bufWaveProvider = new BufferedWaveProvider(_waveIn.WaveFormat);
 		_volumeProvider = new VolumeSampleProvider(_bufWaveProvider.ToSampleProvider());
 		_wasapiOut = new WasapiOut(_devices[1], AudioClientShareMode.Shared, true, 0);
-		_filter = BiQuadFilter.PeakingEQ(_waveIn.WaveFormat.SampleRate, 1000, .2f, 20);
+		_filter = BiQuadFilter.PeakingEQ(_waveIn.WaveFormat.SampleRate, 4000, .2f, 20);
 
         // Outputs recordingWithEQ.wav in desktop folder
         var outputFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "NAudio");
@@ -54,15 +55,21 @@ public class RealTimeEq
 				Buffer.BlockCopy(transformed, 0, e.Buffer, i, 4);
 			}
 
+			/*
 			// Write filtered audio to desktop folder file (records ~10 seconds)
 			_writer.Write(e.Buffer, 0, e.BytesRecorded);
 			if(_writer.Position > _waveIn.WaveFormat.AverageBytesPerSecond*10) {
 				_waveIn.StopRecording();
 				_writer.Dispose();
 			}
+			*/
 
 			_bufWaveProvider.AddSamples(e.Buffer, 0, e.BytesRecorded);
             _volumeProvider.Volume = .8f;
         };
     }
+
+	public void setFilter(float centerFreq, float q, float dbGain) {
+		_filter.SetPeakingEq(_waveIn.WaveFormat.SampleRate, centerFreq, q, dbGain);
+	}
 }
