@@ -1,6 +1,3 @@
-using NAudio.Wave;
-using NAudio.Wave.SampleProviders;
-using System.Diagnostics;
 
 namespace Equalizer
 {
@@ -61,12 +58,22 @@ namespace Equalizer
             _musicFileDialog.Filter  = _filterText + "|" + _filterFilter;
         }
 
-        private void _btwn_browse_Click(object sender, EventArgs e)
+        /// <summary>
+        /// Opens a dialog menu to pick an audio file which is saved for when audio is played.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void _btn_browse_Click(object sender, EventArgs e)
         {
             // open the file picker dialog when browse is clicked
             _musicFileDialog.ShowDialog();
         }
-
+        
+        /// <summary>
+        /// Updates text box and saves the filename to be played.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void _musicFileDialog_FileOk(object sender, System.ComponentModel.CancelEventArgs e)
         {
             // display the selected file's path
@@ -77,6 +84,12 @@ namespace Equalizer
             _btn_playpause.Text = _mediaPlay;
         }
 
+        /// <summary>
+        /// Switches between play and pause states for the button and
+        /// media player.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void _btn_playpause_Click(object sender, EventArgs e)
         {
             if (_btn_playpause.Text == _mediaPlay)
@@ -93,24 +106,48 @@ namespace Equalizer
             }
         }
 
+        /// <summary>
+        /// Sets media output volume percent to trackbar value.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void _tb_volume_Scroll(object sender, EventArgs e)
         {
             _media.setVolumePercentage(_tb_volume.Value);
         }
 
-        private void _btn_tmp_Click(object sender, EventArgs e)
+        /// <summary>
+        /// Switches between enabled and disabled states for the live 
+        /// EQ filter.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void _btn_eq_enable_Click(object sender, EventArgs e)
         {
-            _rteq.doThings();
+            var btn = sender as Button;
+            if(btn.Text.Equals("Enable EQ")) {
+                _rteq.enableFilter();
+                btn.Text = "Disable EQ";
+            } else
+            {
+                _rteq.disableFilter();
+                btn.Text = "Enable EQ";
+            }
         }
 
-        private void trackBar1_ValueChanged(object sender, EventArgs e) {
+        /// <summary>
+        /// Maps trackbar value (0 to 10) to an audio freq (50 to 16000)
+        /// and sets that to be the live EQ center frequency.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void _tb_eq_freq_ValueChanged(object sender, EventArgs e) {
             var bar = sender as TrackBar;
             var eqMin = 50;
             var eqMax = 16000;
             var percent = (float)bar.Value / (float)bar.Maximum;
             var finalEQFreq = eqMin + (percent*(eqMax - eqMin));
-            Debug.Print(finalEQFreq.ToString());
-            _rteq.setFilter(finalEQFreq, 0.2f, 20);
+            _rteq.setFilter(finalEQFreq, _rteq.getQ(), _rteq.getGain());
         }
     }
 }

@@ -33,28 +33,31 @@
             this._musicFileDialog = new System.Windows.Forms.OpenFileDialog();
             this._btn_playpause = new System.Windows.Forms.Button();
             this._tb_volume = new System.Windows.Forms.TrackBar();
-            this._btn_tmp = new System.Windows.Forms.Button();
-            this.trackBar1 = new System.Windows.Forms.TrackBar();
+            this._btn_eq_enable = new System.Windows.Forms.Button();
+            this._tb_eq_freq = new System.Windows.Forms.TrackBar();
             ((System.ComponentModel.ISupportInitialize)(this._tb_volume)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this._tb_eq_freq)).BeginInit();
             this.SuspendLayout();
             // 
             // _txt_fileName
             // 
-            this._txt_fileName.Location = new System.Drawing.Point(11, 12);
+            this._txt_fileName.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this._txt_fileName.Location = new System.Drawing.Point(14, 14);
+            this._txt_fileName.Margin = new System.Windows.Forms.Padding(5);
             this._txt_fileName.Name = "_txt_fileName";
-            this._txt_fileName.Size = new System.Drawing.Size(696, 23);
+            this._txt_fileName.Size = new System.Drawing.Size(671, 25);
             this._txt_fileName.TabIndex = 0;
             // 
             // _btn_browse
             // 
-            this._btn_browse.Location = new System.Drawing.Point(713, 12);
+            this._btn_browse.Location = new System.Drawing.Point(695, 14);
+            this._btn_browse.Margin = new System.Windows.Forms.Padding(5);
             this._btn_browse.Name = "_btn_browse";
-            this._btn_browse.Size = new System.Drawing.Size(75, 23);
+            this._btn_browse.Size = new System.Drawing.Size(75, 25);
             this._btn_browse.TabIndex = 1;
             this._btn_browse.Text = "Browse";
             this._btn_browse.UseVisualStyleBackColor = true;
-            this._btn_browse.Click += new System.EventHandler(this._btwn_browse_Click);
+            this._btn_browse.Click += new System.EventHandler(this._btn_browse_Click);
             // 
             // _musicFileDialog
             // 
@@ -62,47 +65,54 @@
             // 
             // _btn_playpause
             // 
-            this._btn_playpause.Location = new System.Drawing.Point(12, 41);
+            this._btn_playpause.Location = new System.Drawing.Point(14, 49);
+            this._btn_playpause.Margin = new System.Windows.Forms.Padding(5);
             this._btn_playpause.Name = "_btn_playpause";
-            this._btn_playpause.Size = new System.Drawing.Size(22, 23);
+            this._btn_playpause.Size = new System.Drawing.Size(45, 45);
             this._btn_playpause.TabIndex = 2;
             this._btn_playpause.UseVisualStyleBackColor = true;
             this._btn_playpause.Click += new System.EventHandler(this._btn_playpause_Click);
             // 
             // _tb_volume
             // 
-            this._tb_volume.Location = new System.Drawing.Point(40, 41);
+            this._tb_volume.Location = new System.Drawing.Point(69, 49);
+            this._tb_volume.Margin = new System.Windows.Forms.Padding(5);
             this._tb_volume.Name = "_tb_volume";
-            this._tb_volume.Size = new System.Drawing.Size(104, 45);
+            this._tb_volume.Size = new System.Drawing.Size(150, 45);
             this._tb_volume.TabIndex = 3;
+            this._tb_volume.TickStyle = System.Windows.Forms.TickStyle.Both;
             this._tb_volume.Scroll += new System.EventHandler(this._tb_volume_Scroll);
             // 
-            // _btn_tmp
+            // _btn_eq_enable
             // 
-            this._btn_tmp.Location = new System.Drawing.Point(188, 41);
-            this._btn_tmp.Name = "_btn_tmp";
-            this._btn_tmp.Size = new System.Drawing.Size(303, 23);
-            this._btn_tmp.TabIndex = 4;
-            this._btn_tmp.Text = "Save 10 seconds of audio with EQ to desktop folder\r\n";
-            this._btn_tmp.UseVisualStyleBackColor = true;
-            this._btn_tmp.Click += new System.EventHandler(this._btn_tmp_Click);
+            this._btn_eq_enable.Location = new System.Drawing.Point(273, 419);
+            this._btn_eq_enable.Margin = new System.Windows.Forms.Padding(5);
+            this._btn_eq_enable.Name = "_btn_eq_enable";
+            this._btn_eq_enable.Size = new System.Drawing.Size(256, 30);
+            this._btn_eq_enable.TabIndex = 4;
+            this._btn_eq_enable.Tag = "";
+            this._btn_eq_enable.Text = "Enable EQ";
+            this._btn_eq_enable.UseVisualStyleBackColor = true;
+            this._btn_eq_enable.Click += new System.EventHandler(this._btn_eq_enable_Click);
             // 
-            // trackBar1
+            // _tb_eq_freq
             // 
-            this.trackBar1.Location = new System.Drawing.Point(188, 271);
-            this.trackBar1.Name = "trackBar1";
-            this.trackBar1.Size = new System.Drawing.Size(401, 45);
-            this.trackBar1.TabIndex = 5;
-            this.trackBar1.TickStyle = System.Windows.Forms.TickStyle.Both;
-            this.trackBar1.ValueChanged += new System.EventHandler(this.trackBar1_ValueChanged);
+            this._tb_eq_freq.Location = new System.Drawing.Point(200, 364);
+            this._tb_eq_freq.Margin = new System.Windows.Forms.Padding(5);
+            this._tb_eq_freq.Name = "_tb_eq_freq";
+            this._tb_eq_freq.Size = new System.Drawing.Size(400, 45);
+            this._tb_eq_freq.TabIndex = 5;
+            this._tb_eq_freq.TickStyle = System.Windows.Forms.TickStyle.Both;
+            this._tb_eq_freq.Value = 5;
+            this._tb_eq_freq.ValueChanged += new System.EventHandler(this._tb_eq_freq_ValueChanged);
             // 
             // _form_eq
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.trackBar1);
-            this.Controls.Add(this._btn_tmp);
+            this.ClientSize = new System.Drawing.Size(784, 461);
+            this.Controls.Add(this._tb_eq_freq);
+            this.Controls.Add(this._btn_eq_enable);
             this.Controls.Add(this._tb_volume);
             this.Controls.Add(this._btn_playpause);
             this.Controls.Add(this._btn_browse);
@@ -110,7 +120,7 @@
             this.Name = "_form_eq";
             this.Text = "Equalizer Project";
             ((System.ComponentModel.ISupportInitialize)(this._tb_volume)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this._tb_eq_freq)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -123,7 +133,8 @@
         private OpenFileDialog _musicFileDialog;
         private Button _btn_playpause;
         private TrackBar _tb_volume;
-        private Button _btn_tmp;
-        private TrackBar trackBar1;
+        private Button _btn_eq_enable;
+        private TrackBar _tb_eq_freq;
+        private NAudio.Gui.VolumeSlider volumeSlider1;
     }
 }
