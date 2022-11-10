@@ -17,8 +17,7 @@ namespace Equalizer
 
         private RealTimeEq _rteq = new();
 
-        public _form_eq()
-        {
+        public _form_eq() {
             InitializeComponent();
 
             //
@@ -44,8 +43,7 @@ namespace Equalizer
             // set up the new filter based on the entries in _filetypes
             string _filterText = "Audio Files (";
             string _filterFilter = "";
-            foreach (var filetype in _filetypes)
-            {
+            foreach (var filetype in _filetypes) {
                 _filterText += $"*.{filetype},";
                 _filterFilter += $"*.{filetype};";
             }
@@ -55,7 +53,7 @@ namespace Equalizer
             _filterFilter = _filterFilter.TrimEnd(';');
 
             // assign the filter to the file picker dialog
-            _musicFileDialog.Filter  = _filterText + "|" + _filterFilter;
+            _musicFileDialog.Filter = _filterText + "|" + _filterFilter;
         }
 
         /// <summary>
@@ -63,19 +61,17 @@ namespace Equalizer
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void _btn_browse_Click(object sender, EventArgs e)
-        {
+        private void _btn_browse_Click(object sender, EventArgs e) {
             // open the file picker dialog when browse is clicked
             _musicFileDialog.ShowDialog();
         }
-        
+
         /// <summary>
         /// Updates text box and saves the filename to be played.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void _musicFileDialog_FileOk(object sender, System.ComponentModel.CancelEventArgs e)
-        {
+        private void _musicFileDialog_FileOk(object sender, System.ComponentModel.CancelEventArgs e) {
             // display the selected file's path
             _txt_fileName.Text = _musicFileDialog.FileName;
             // stop the media player
@@ -90,16 +86,13 @@ namespace Equalizer
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void _btn_playpause_Click(object sender, EventArgs e)
-        {
-            if (_btn_playpause.Text == _mediaPlay)
-            {
+        private void _btn_playpause_Click(object sender, EventArgs e) {
+            if (_btn_playpause.Text == _mediaPlay) {
                 // Play
                 _btn_playpause.Text = _mediaPause;
                 _media.LoadFile(_txt_fileName.Text);
                 _media.Play();
-            } else
-            {
+            } else {
                 // pause
                 _btn_playpause.Text = _mediaPlay;
                 _media.Pause();
@@ -111,8 +104,7 @@ namespace Equalizer
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void _tb_volume_Scroll(object sender, EventArgs e)
-        {
+        private void _tb_volume_Scroll(object sender, EventArgs e) {
             _media.setVolumePercentage(_tb_volume.Value);
         }
 
@@ -122,15 +114,13 @@ namespace Equalizer
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void _btn_eq_enable_Click(object sender, EventArgs e)
-        {
+        private void _btn_eq_enable_Click(object sender, EventArgs e) {
             var btn = sender as Button;
-            if(btn.Text.Equals("Enable EQ")) {
-                _rteq.enableFilter();
+            if (btn.Text.Equals("Enable EQ")) {
+                _rteq.EnableFilter();
                 btn.Text = "Disable EQ";
-            } else
-            {
-                _rteq.disableFilter();
+            } else {
+                _rteq.DisableFilter();
                 btn.Text = "Enable EQ";
             }
         }
@@ -146,8 +136,8 @@ namespace Equalizer
             var eqMin = 50;
             var eqMax = 16000;
             var percent = (float)bar.Value / (float)bar.Maximum;
-            var finalEQFreq = eqMin + (percent*(eqMax - eqMin));
-            _rteq.setFilter(finalEQFreq, _rteq.getQ(), _rteq.getGain());
+            var finalEQFreq = eqMin + (percent * (eqMax - eqMin));
+            _rteq.SetFilter(finalEQFreq, _rteq.GetQ(), _rteq.GetGain());
         }
     }
 }

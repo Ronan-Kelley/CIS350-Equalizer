@@ -1,6 +1,6 @@
-﻿using NAudio.Dsp;
+﻿using NAudio.CoreAudioApi;
+using NAudio.Dsp;
 using NAudio.Wave;
-using NAudio.CoreAudioApi;
 
 /// <summary>
 /// Captures, alters, and plays back system audio.
@@ -21,8 +21,7 @@ public class RealTimeEq
 	private MMDeviceEnumerator _devicesEnumerator;
 	private MMDevice[] _devices;
 
-	public RealTimeEq()
-	{
+	public RealTimeEq() {
 		// Temporarily use 2 devices to seperate audio to avoid feedback loops
 		_devicesEnumerator = new();
 		_devices = _devicesEnumerator.EnumerateAudioEndPoints(DataFlow.All, DeviceState.Active).ToArray();
@@ -38,44 +37,41 @@ public class RealTimeEq
 		_bufWaveProvider = new(_waveIn.WaveFormat);
 		_filter = BiQuadFilter.PeakingEQ(_waveIn.WaveFormat.SampleRate, _centerFreq, _q, _gain);
 		_wasapiOut = new(_devices[1], AudioClientShareMode.Shared, true, 0);
-        _waveIn.DataAvailable += delegate (object? sender, WaveInEventArgs e)
-        {
-            if (_enabled) {
-                for (int i = 0; i < e.BytesRecorded; i += 4) {
-                    byte[] transformed = BitConverter.GetBytes(_filter.Transform(BitConverter.ToSingle(e.Buffer, i)));
-                    Buffer.BlockCopy(transformed, 0, e.Buffer, i, 4);
-                }
-            }
+		_waveIn.DataAvailable += delegate (object? sender, WaveInEventArgs e) {
+			if (_enabled) {
+				for (int i = 0; i < e.BytesRecorded; i += 4) {
+					byte[] transformed = BitConverter.GetBytes(_filter.Transform(BitConverter.ToSingle(e.Buffer, i)));
+					Buffer.BlockCopy(transformed, 0, e.Buffer, i, 4);
+				}
+			}
 
-            _bufWaveProvider.AddSamples(e.Buffer, 0, e.BytesRecorded);
-        };
+			_bufWaveProvider.AddSamples(e.Buffer, 0, e.BytesRecorded);
+		};
 
 		// Start audio playback on 2nd device
 		_waveIn.StartRecording();
 		_wasapiOut.Init(_bufWaveProvider);
 		_wasapiOut.Play();
-    }
+	}
 
 	/// <summary>
 	/// Enables the captured audio to be altered based on filter
 	/// before being played back.
 	/// </summary>
-	public void enableFilter()
-	{
+	public void EnableFilter() {
 		// Right now this only works with 2 audio devices (or more)
-		if(_devices.Length < 2) 
-		{
+		if (_devices.Length < 2) {
 			return;
 		}
 
 		_enabled = true;
-    }
+	}
 
 	/// <summary>
 	/// Stops the captured audio from being altered before
 	/// being played back.
 	/// </summary>
-	public void disableFilter() {
+	public void DisableFilter() {
 		_enabled = false;
 	}
 
@@ -92,22 +88,22 @@ public class RealTimeEq
 	/// <param name="dbGain">
 	/// The maximum decibal gain at the center frequency 
 	/// </param>
-	public void setFilter(float centerFreq, float q, float dbGain) {
+	public void SetFilter(float centerFreq, float q, float dbGain) {
 		_centerFreq = centerFreq;
 		_q = q;
 		_gain = dbGain;
 		_filter.SetPeakingEq(_waveIn.WaveFormat.SampleRate, _centerFreq, _q, _gain);
 	}
 
-	public float getGain() {
+	public float GetGain() {
 		return _gain;
 	}
 
-	public float getQ() {
+	public float GetQ() {
 		return _q;
 	}
 
-	public float getCenterFreq() {
+	public float GetCenterFreq() {
 		return _centerFreq;
 	}
 }
