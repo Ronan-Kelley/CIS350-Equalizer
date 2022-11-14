@@ -1,47 +1,39 @@
 ﻿using NAudio.Wave;
-using System;
 
 public class MediaPlayer
 {
     // player objects
-    private WaveOutEvent? outputDevice;
-    private AudioFileReader? audioFile;
+    private WaveOutEvent? _outputDevice;
+    private AudioFileReader? _audioFile;
 
     // path of the currently loaded file
-    private string? curFilePath;
+    private string? _curFilePath;
 
-    public MediaPlayer()
-	{
-        outputDevice = null;
-        audioFile = null;
-	}
+    public MediaPlayer() {
+        _outputDevice = null;
+        _audioFile = null;
+    }
 
-    public bool LoadFile(string filePath)
-    {
+    public bool LoadFile(string filePath) {
         // ensure file isn't already loaded
-        if (filePath == curFilePath)
-        {
+        if (filePath == _curFilePath) {
             return true;
         }
 
         // initialize the output device
-        if (outputDevice == null)
-        {
+        if (_outputDevice == null) {
             // create the waveout event
-            outputDevice = new WaveOutEvent();
+            _outputDevice = new WaveOutEvent();
             // set up a handler for the PlaybackStopped event (defined below)
-            outputDevice.PlaybackStopped += OnPlaybackStopped;
-            outputDevice.Volume = 1;
+            _outputDevice.PlaybackStopped += OnPlaybackStopped;
+            _outputDevice.Volume = 1;
         }
         // initialize the audio file if the path exists
-        if (File.Exists(filePath))
-        {
-            audioFile = new AudioFileReader(filePath);
-            curFilePath = filePath;
-            outputDevice.Init(audioFile);
-        }
-        else
-        {
+        if (File.Exists(filePath)) {
+            _audioFile = new AudioFileReader(filePath);
+            _curFilePath = filePath;
+            _outputDevice.Init(_audioFile);
+        } else {
             Stop();
             return false;
         }
@@ -49,84 +41,66 @@ public class MediaPlayer
         return true;
     }
 
-    public void Play()
-    {
-        if (outputDevice != null)
-        {
+    public void Play() {
+        if (_outputDevice != null) {
             // if song is over, restart it
-            if ( audioFile != null && audioFile.Length >= audioFile.Position)
-            {
-                audioFile.Position = 0;
+            if (_audioFile != null && _audioFile.Length >= _audioFile.Position) {
+                _audioFile.Position = 0;
             }
-            outputDevice.Play();
+            _outputDevice.Play();
         }
     }
 
-    public void Pause()
-    {
-        if (outputDevice != null)
-        {
-            outputDevice.Pause();
+    public void Pause() {
+        if (_outputDevice != null) {
+            _outputDevice.Pause();
         }
     }
 
-    public void Stop()
-    {
-        if (outputDevice != null)
-        {
-            outputDevice.Dispose();
+    public void Stop() {
+        if (_outputDevice != null) {
+            _outputDevice.Dispose();
         }
-        outputDevice = null;
-        if (audioFile != null)
-        {
-            audioFile.Dispose();
+        _outputDevice = null;
+        if (_audioFile != null) {
+            _audioFile.Dispose();
         }
-        audioFile = null;
-        curFilePath = null;
+        _audioFile = null;
+        _curFilePath = null;
     }
 
-    public void setVolumePercentage(float volume)
-    {
+    public void setVolumePercentage(float volume) {
         // clamp passed value
-        if (volume > 100f)
-        {
+        if (volume > 100f) {
             volume = 100f;
-        } else if (volume < 0f)
-        {
+        } else if (volume < 0f) {
             volume = 0f;
         }
 
         // set volume
-        if (outputDevice != null)
-        {
-            outputDevice.Volume = volume / 100f;
+        if (_outputDevice != null) {
+            _outputDevice.Volume = volume / 100f;
         }
     }
 
-    public void setPositionPercent(float percentDone)
-    {
+    public void setPositionPercent(float percentDone) {
         // clamp percentDone
-        if (percentDone > 100f)
-        {
+        if (percentDone > 100f) {
             percentDone = 100f;
-        } else if (percentDone < 0f)
-        {
+        } else if (percentDone < 0f) {
             percentDone = 0f;
         }
 
         // assign the value
-        if (audioFile != null)
-        {
-            audioFile.Position = (long) (audioFile.Length / 100 * (percentDone));
+        if (_audioFile != null) {
+            _audioFile.Position = (long)(_audioFile.Length / 100 * (percentDone));
         }
     }
 
-    public bool isReady()
-    {
-        return (outputDevice != null && audioFile != null);
+    public bool isReady() {
+        return (_outputDevice != null && _audioFile != null);
     }
 
-    private void OnPlaybackStopped(object? sender, StoppedEventArgs e)
-    {
+    private void OnPlaybackStopped(object? sender, StoppedEventArgs e) {
     }
 }
