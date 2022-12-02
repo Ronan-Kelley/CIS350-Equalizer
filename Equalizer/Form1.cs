@@ -116,6 +116,10 @@ namespace Equalizer
         /// <param name="e"></param>
         private void _btn_eq_enable_Click(object sender, EventArgs e) {
             var btn = sender as Button;
+            if (btn == null)
+            {
+                return;
+            }
             if (btn.Text.Equals("Enable EQ")) {
                 _rteq.EnableFilter();
                 btn.Text = "Disable EQ";
@@ -133,6 +137,10 @@ namespace Equalizer
         /// <param name="e"></param>
         private void _tb_eq_freq_ValueChanged(object sender, EventArgs e) {
             var bar = sender as TrackBar;
+            if (bar == null)
+            {
+                return;
+            }
             var eqMin = 50;
             var eqMax = 16000;
             var percent = (float)bar.Value / (float)bar.Maximum;

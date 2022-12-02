@@ -1,6 +1,9 @@
 ﻿using NAudio.CoreAudioApi;
 using NAudio.Dsp;
 using NAudio.Wave;
+using System.DirectoryServices.ActiveDirectory;
+using System;
+using NAudio.MediaFoundation;
 
 /// <summary>
 /// Captures, alters, and plays back system audio.
@@ -10,15 +13,13 @@ public class RealTimeEq
 	private WasapiLoopbackCapture _waveIn;
 	private BufferedWaveProvider _bufWaveProvider;
 	private WasapiOut _wasapiOut;
-	private BiQuadFilter _filter;
 
-	// Filter variables
-	private bool _enabled;
-	private float _gain;
-	private float _centerFreq;
-	private float _q;
+    // Filter variables
+    private BiQuadFilter[] _filters;
+    private bool _enabled;
+    private int _numOfFilters;
 
-	private MMDeviceEnumerator _devicesEnumerator;
+    private MMDeviceEnumerator _devicesEnumerator;
 	private MMDevice[] _devices;
 
 	public RealTimeEq() {
@@ -28,20 +29,21 @@ public class RealTimeEq
 
 		// Variables setup 
 		_enabled = false;
-		_gain = 20;
-		_centerFreq = 1000;
-		_q = 1;
+		_numOfFilters = 0;
 
 		// Audio capture, filter, and playback setup
 		_waveIn = new(_devices[0]);
 		_bufWaveProvider = new(_waveIn.WaveFormat);
-		_filter = BiQuadFilter.PeakingEQ(_waveIn.WaveFormat.SampleRate, _centerFreq, _q, _gain);
+		_filters = new BiQuadFilter[10];
 		_wasapiOut = new(_devices[1], AudioClientShareMode.Shared, true, 0);
 		_waveIn.DataAvailable += delegate (object? sender, WaveInEventArgs e) {
 			if (_enabled) {
 				for (int i = 0; i < e.BytesRecorded; i += 4) {
-					byte[] transformed = BitConverter.GetBytes(_filter.Transform(BitConverter.ToSingle(e.Buffer, i)));
-					Buffer.BlockCopy(transformed, 0, e.Buffer, i, 4);
+					foreach (BiQuadFilter filter in _filters)
+					{
+                        byte[] transformed = BitConverter.GetBytes(filter.Transform(BitConverter.ToSingle(e.Buffer, i)));
+                        Buffer.BlockCopy(transformed, 0, e.Buffer, i, 4);
+                    }
 				}
 			}
 
@@ -88,22 +90,38 @@ public class RealTimeEq
 	/// <param name="dbGain">
 	/// The maximum decibal gain at the center frequency 
 	/// </param>
-	public void SetFilter(float centerFreq, float q, float dbGain) {
-		_centerFreq = centerFreq;
-		_q = q;
-		_gain = dbGain;
-		_filter.SetPeakingEq(_waveIn.WaveFormat.SampleRate, _centerFreq, _q, _gain);
+	public void SetFilter(int index, float centerFreq, float q, float dbGain)
+	{
+		if (index < 0 || index >= _numOfFilters)
+		{
+			return; //TODO error handeling?
+		}
+		_filters[index].SetPeakingEq(_waveIn.WaveFormat.SampleRate, centerFreq, q, dbGain);
 	}
 
-	public float GetGain() {
-		return _gain;
+	public void AddFilter(float centerFreq, float q, float dbGain)
+	{
+		if (_numOfFilters == 10)
+		{
+			return;
+		}
+		_filters[_numOfFilters].SetPeakingEq(_waveIn.WaveFormat.SampleRate, centerFreq, q, dbGain);
+		_numOfFilters++;
 	}
 
-	public float GetQ() {
-		return _q;
-	}
+    public void RemoveFilter(int index)
+	{
+		if (index < 0 || index > _numOfFilters)
+		{
+			return; //TODO error handeling?
+		}
 
-	public float GetCenterFreq() {
-		return _centerFreq;
+		// Shift all other filters in array
+		while (index < _numOfFilters - 1)
+		{
+			_filters[index] = _filters[index + 1];
+			index++;
+		}
+		_numOfFilters--;
 	}
 }
