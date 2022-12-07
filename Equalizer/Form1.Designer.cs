@@ -35,6 +35,7 @@
             this._tb_volume = new System.Windows.Forms.TrackBar();
             this._btn_eq_enable = new System.Windows.Forms.Button();
             this._tb_eq_freq = new System.Windows.Forms.TrackBar();
+            this.equalizerOptions1 = new Equalizer.EqualizerOptions();
             ((System.ComponentModel.ISupportInitialize)(this._tb_volume)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this._tb_eq_freq)).BeginInit();
             this.SuspendLayout();
@@ -45,12 +46,12 @@
             this._txt_fileName.Location = new System.Drawing.Point(14, 14);
             this._txt_fileName.Margin = new System.Windows.Forms.Padding(5);
             this._txt_fileName.Name = "_txt_fileName";
-            this._txt_fileName.Size = new System.Drawing.Size(671, 25);
+            this._txt_fileName.Size = new System.Drawing.Size(951, 25);
             this._txt_fileName.TabIndex = 0;
             // 
             // _btn_browse
             // 
-            this._btn_browse.Location = new System.Drawing.Point(695, 14);
+            this._btn_browse.Location = new System.Drawing.Point(975, 14);
             this._btn_browse.Margin = new System.Windows.Forms.Padding(5);
             this._btn_browse.Name = "_btn_browse";
             this._btn_browse.Size = new System.Drawing.Size(75, 25);
@@ -85,7 +86,7 @@
             // 
             // _btn_eq_enable
             // 
-            this._btn_eq_enable.Location = new System.Drawing.Point(273, 419);
+            this._btn_eq_enable.Location = new System.Drawing.Point(438, 497);
             this._btn_eq_enable.Margin = new System.Windows.Forms.Padding(5);
             this._btn_eq_enable.Name = "_btn_eq_enable";
             this._btn_eq_enable.Size = new System.Drawing.Size(256, 30);
@@ -97,7 +98,7 @@
             // 
             // _tb_eq_freq
             // 
-            this._tb_eq_freq.Location = new System.Drawing.Point(200, 364);
+            this._tb_eq_freq.Location = new System.Drawing.Point(348, 432);
             this._tb_eq_freq.Margin = new System.Windows.Forms.Padding(5);
             this._tb_eq_freq.Name = "_tb_eq_freq";
             this._tb_eq_freq.Size = new System.Drawing.Size(400, 45);
@@ -106,11 +107,21 @@
             this._tb_eq_freq.Value = 5;
             this._tb_eq_freq.ValueChanged += new System.EventHandler(this._tb_eq_freq_ValueChanged);
             // 
+            // equalizerOptions1
+            // 
+            this.equalizerOptions1.AllowDrop = true;
+            this.equalizerOptions1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.equalizerOptions1.Location = new System.Drawing.Point(291, 96);
+            this.equalizerOptions1.Name = "equalizerOptions1";
+            this.equalizerOptions1.Size = new System.Drawing.Size(500, 300);
+            this.equalizerOptions1.TabIndex = 6;
+            // 
             // _form_eq
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(784, 461);
+            this.ClientSize = new System.Drawing.Size(1064, 601);
+            this.Controls.Add(this.equalizerOptions1);
             this.Controls.Add(this._tb_eq_freq);
             this.Controls.Add(this._btn_eq_enable);
             this.Controls.Add(this._tb_volume);
@@ -136,5 +147,6 @@
         private Button _btn_eq_enable;
         private TrackBar _tb_eq_freq;
         private NAudio.Gui.VolumeSlider volumeSlider1;
+        private EqualizerOptions equalizerOptions1;
     }
 }
