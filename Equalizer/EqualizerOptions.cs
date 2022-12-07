@@ -14,7 +14,6 @@ namespace Equalizer
 {
     public partial class EqualizerOptions : UserControl
     {
-
         private Button[] _nodes;
         private int _selectedNodeIndex; // index of node in _nodes
         private int _numOfNodes;
@@ -48,15 +47,34 @@ namespace Equalizer
             newNode.AllowDrop = true;
 
             // Setup for tracking
-            _selectedNodeIndex = _numOfNodes;
             newNode.Tag = _numOfNodes;
-            _nodes[(int)(newNode.Tag)] = newNode; // could add error checking here
+            _nodes[_numOfNodes] = newNode; // could add error checking here
             newNode.MouseDown += new MouseEventHandler(SelectNode);
             newNode.MouseMove += new MouseEventHandler(MoveNode);
             newNode.MouseUp += new MouseEventHandler(StopMovingNode);
 
             Controls.Add(newNode);
             _numOfNodes++;
+        }
+
+        private void DeleteNode(int index) {
+            if (_numOfNodes <= 0) {
+                return;
+            }
+
+            if (index < 0 || index >= _numOfNodes) {
+                return;
+            }
+
+            Controls.Remove(_nodes[index]);
+
+            while (index < _numOfNodes - 1) {
+                _nodes[index] = _nodes[index + 1];
+                index++;
+            }
+
+            _numOfNodes--;
+            _selectedNodeIndex = 0;
         }
 
         private void MoveNode(object sender, MouseEventArgs e) {
@@ -92,8 +110,18 @@ namespace Equalizer
             _moving = true;
         }
 
+
+
         private void _btn_addnode_Click(object sender, EventArgs e) {
             CreateNode();
+        }
+
+        private void _btn_delnode_Click(object sender, EventArgs e) {
+            if (_numOfNodes <= 0) {
+                return;
+            }
+
+            DeleteNode(_selectedNodeIndex);
         }
     }
 }
