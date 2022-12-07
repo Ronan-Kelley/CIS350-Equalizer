@@ -14,17 +14,16 @@ namespace Equalizer
         private const string _mediaPlay = "\u25B6";
         private const string _mediaPause = "||";
 
-        // player object
-        private MediaPlayer _media = new();
-
-        //private RealTimeEq _rteq = new RealTimeEq(new AudioFileReader(""));
+        // Audio playback and altering
+        private MediaPlayer _mediaPlayer;
+        private NonLiveEq _eq;
 
         public _form_eq() {
             InitializeComponent();
 
-            //
-            // set up multimedia components
-            //
+            /***********************************************
+             * Set up multimedia components
+             **********************************************/
 
             // play/pause button
             _btn_playpause.Text = _mediaPlay;
@@ -35,10 +34,10 @@ namespace Equalizer
             _tb_volume.Value = 100;
             _tb_volume.TickFrequency = 10;
 
-            //
-            // set up file picker filters
-            //
-
+            /***********************************************
+             * Set up file picker filters
+             **********************************************/
+            
             // clear the file dialog filter
             _musicFileDialog.Filter = "";
 
@@ -56,6 +55,12 @@ namespace Equalizer
 
             // assign the filter to the file picker dialog
             _musicFileDialog.Filter = _filterText + "|" + _filterFilter;
+
+            /***********************************************
+             * Media Setup 
+             **********************************************/
+
+            _mediaPlayer = new MediaPlayer();
         }
 
         /// <summary>
@@ -77,7 +82,7 @@ namespace Equalizer
             // display the selected file's path
             _txt_fileName.Text = _musicFileDialog.FileName;
             // stop the media player
-            _media.Stop();
+            _mediaPlayer.Stop();
             // ensure the play/pause button is correct
             _btn_playpause.Text = _mediaPlay;
         }
@@ -92,12 +97,12 @@ namespace Equalizer
             if (_btn_playpause.Text == _mediaPlay) {
                 // Play
                 _btn_playpause.Text = _mediaPause;
-                _media.LoadFile(_txt_fileName.Text);
-                _media.Play();
+                _mediaPlayer.LoadFile(_txt_fileName.Text);
+                _mediaPlayer.Play();
             } else {
                 // pause
                 _btn_playpause.Text = _mediaPlay;
-                _media.Pause();
+                _mediaPlayer.Pause();
             }
         }
 
@@ -107,7 +112,7 @@ namespace Equalizer
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void _tb_volume_Scroll(object sender, EventArgs e) {
-            _media.setVolumePercentage(_tb_volume.Value);
+            _mediaPlayer.setVolumePercentage(_tb_volume.Value);
         }
 
         /// <summary>

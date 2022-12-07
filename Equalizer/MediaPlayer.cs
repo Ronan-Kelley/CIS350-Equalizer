@@ -3,17 +3,17 @@
 public class MediaPlayer
 {
     // player objects
-    private WaveOutEvent? _outputDevice;
     private AudioFileReader? _audioFile;
     private NonLiveEq? _equalizer;
+    private WaveOutEvent? _outputDevice;
 
     // path of the currently loaded file
     private string? _curFilePath;
 
     public MediaPlayer() {
-        _outputDevice = null;
         _audioFile = null;
         _equalizer = null;
+        _outputDevice = null;
     }
 
     public bool LoadFile(string filePath) {
@@ -34,7 +34,11 @@ public class MediaPlayer
         if (File.Exists(filePath)) {
             _audioFile = new AudioFileReader(filePath);
             _curFilePath = filePath;
-            _equalizer = new NonLiveEq(_audioFile);
+            if (_equalizer == null) {
+                _equalizer = new NonLiveEq(_audioFile);
+            } else {
+                _equalizer.SetSource(_audioFile);
+            }
             _outputDevice.Init(_equalizer);
         } else {
             Stop();

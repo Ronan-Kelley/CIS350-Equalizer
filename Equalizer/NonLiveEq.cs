@@ -13,14 +13,16 @@ public class NonLiveEq : ISampleProvider
 {
 	private ISampleProvider _sourceProvider;
 
-	public WaveFormat WaveFormat => _sourceProvider.WaveFormat;
-
     // Filter variables
     private BiQuadFilter[] _filters;
     private bool _enabled;
     private int _numOfFilters;
 
+	// TODO this could throw error if _sourceProvider is null
+	WaveFormat ISampleProvider.WaveFormat => _sourceProvider.WaveFormat;
+
 	public NonLiveEq(ISampleProvider sourceProvider) {
+		// TODO could throw error if null
 		_sourceProvider = sourceProvider;
 
 		// Equalizer variables setup 
@@ -31,6 +33,14 @@ public class NonLiveEq : ISampleProvider
 		// For testing EQ
 		AddFilter(1000, 0.5f, 10);
 		EnableFilter();
+	}
+
+	public void SetSource(ISampleProvider newSourceProvider) {
+		if (newSourceProvider == null) {
+			return;
+		}
+
+		_sourceProvider = newSourceProvider;
 	}
 
 	public int Read(float[] buffer, int offset, int count) {
