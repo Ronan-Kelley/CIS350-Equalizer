@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
+using System.Dynamic;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -22,9 +23,6 @@ namespace Equalizer
 
         public EqualizerOptions() {
             InitializeComponent();
-
-            AllowDrop = true;
-            DragDrop += new DragEventHandler(MoveNode);
             
             // Setup
             _nodes = new Button[10];
@@ -34,34 +32,33 @@ namespace Equalizer
         }
 
         private void CreateNode() {
-            if (_numOfNodes >= 10) {
+            if (_numOfNodes == 10) {
                 return;
             }
 
-            // Button component setup
-            Button newNode = new();
-            newNode.Location = new Point(100, 100); // TODO could make dynamic
-            newNode.Name = "newNode";
-            newNode.Size = new Size(15, 15);
-            newNode.UseVisualStyleBackColor = true;
-            newNode.AllowDrop = true;
-
-            // Setup for tracking
+            // Setup for node
+            Button newNode = CreateButton();
             newNode.Tag = _numOfNodes;
-            _nodes[_numOfNodes] = newNode; // could add error checking here
             newNode.MouseDown += new MouseEventHandler(SelectNode);
             newNode.MouseMove += new MouseEventHandler(MoveNode);
             newNode.MouseUp += new MouseEventHandler(StopMovingNode);
 
+            // Adding node
             Controls.Add(newNode);
+            _nodes[_numOfNodes] = newNode; // could add error checking here
             _numOfNodes++;
         }
 
-        private void DeleteNode(int index) {
-            if (_numOfNodes <= 0) {
-                return;
-            }
+        private Button CreateButton() {
+            Button button = new();
+            button.Location = new Point(100, 100); // TODO could make dynamic
+            button.Name = "newNode";
+            button.Size = new Size(15, 15);
+            button.UseVisualStyleBackColor = true;
+            return button;
+        }
 
+        private void DeleteNode(int index) {
             if (index < 0 || index >= _numOfNodes) {
                 return;
             }
@@ -70,6 +67,7 @@ namespace Equalizer
 
             while (index < _numOfNodes - 1) {
                 _nodes[index] = _nodes[index + 1];
+                _nodes[index].Tag = index;
                 index++;
             }
 

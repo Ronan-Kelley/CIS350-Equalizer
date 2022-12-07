@@ -117,7 +117,4 @@ namespace Equalizer
         }
     }
 }
-/// <summary>
-/// Captures, alters, and plays back system audio.
-/// </summary>
 
