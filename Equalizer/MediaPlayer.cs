@@ -47,7 +47,7 @@ public class MediaPlayer
     public void Play() {
         if (_outputDevice != null) {
             // if song is over, restart it
-            if (_audioFile != null && _audioFile.Length >= _audioFile.Position) {
+            if (_audioFile != null && _audioFile.Position >= _audioFile.Length) {
                 _audioFile.Position = 0;
             }
             _outputDevice.Play();
