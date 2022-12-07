@@ -1,4 +1,6 @@
 
+using NAudio.Wave;
+
 namespace Equalizer
 {
     public partial class _form_eq : Form
@@ -15,7 +17,7 @@ namespace Equalizer
         // player object
         private MediaPlayer _media = new();
 
-        private RealTimeEq _rteq = new();
+        //private RealTimeEq _rteq = new RealTimeEq(new AudioFileReader(""));
 
         public _form_eq() {
             InitializeComponent();
@@ -121,10 +123,10 @@ namespace Equalizer
                 return;
             }
             if (btn.Text.Equals("Enable EQ")) {
-                _rteq.EnableFilter();
+                //_rteq.EnableFilter();
                 btn.Text = "Disable EQ";
             } else {
-                _rteq.DisableFilter();
+                //_rteq.DisableFilter();
                 btn.Text = "Enable EQ";
             }
         }
@@ -145,7 +147,7 @@ namespace Equalizer
             var eqMax = 16000;
             var percent = (float)bar.Value / (float)bar.Maximum;
             var finalEQFreq = eqMin + (percent * (eqMax - eqMin));
-            _rteq.SetFilter(finalEQFreq, _rteq.GetQ(), _rteq.GetGain());
+            //_rteq.SetFilter(finalEQFreq, _rteq.GetQ(), _rteq.GetGain());
         }
     }
 }

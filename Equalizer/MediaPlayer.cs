@@ -5,6 +5,7 @@ public class MediaPlayer
     // player objects
     private WaveOutEvent? _outputDevice;
     private AudioFileReader? _audioFile;
+    private NonLiveEq? _equalizer;
 
     // path of the currently loaded file
     private string? _curFilePath;
@@ -12,6 +13,7 @@ public class MediaPlayer
     public MediaPlayer() {
         _outputDevice = null;
         _audioFile = null;
+        _equalizer = null;
     }
 
     public bool LoadFile(string filePath) {
@@ -32,7 +34,8 @@ public class MediaPlayer
         if (File.Exists(filePath)) {
             _audioFile = new AudioFileReader(filePath);
             _curFilePath = filePath;
-            _outputDevice.Init(_audioFile);
+            _equalizer = new NonLiveEq(_audioFile);
+            _outputDevice.Init(_equalizer);
         } else {
             Stop();
             return false;
