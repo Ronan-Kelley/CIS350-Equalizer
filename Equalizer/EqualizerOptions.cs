@@ -51,7 +51,7 @@ namespace Equalizer
 
         private Button CreateButton() {
             Button button = new();
-            button.Location = new Point(100, 100); // TODO could make dynamic
+            button.Location = new Point(204, 140); // Scary magic numbers
             button.Name = "newNode";
             button.Size = new Size(15, 15);
             button.UseVisualStyleBackColor = true;
@@ -78,9 +78,10 @@ namespace Equalizer
         private void MoveNode(object sender, MouseEventArgs e) {
             if (_moving) {
                 Point newPos = PointToClient(Cursor.Position);
-                newPos.X -= _nodes[_selectedNodeIndex].Width / 2;
-                newPos.Y -= _nodes[_selectedNodeIndex].Height / 2;
+                newPos.X = Math.Clamp(newPos.X - _nodes[_selectedNodeIndex].Width / 2, 28, 373);
+                newPos.Y = Math.Clamp(newPos.Y - _nodes[_selectedNodeIndex].Height / 2, 30, 250);
                 _nodes[_selectedNodeIndex].Location = newPos;
+                Debug.WriteLine(newPos);
             }
         }
 
@@ -91,6 +92,8 @@ namespace Equalizer
 
         private void StopMovingNode(object sender, MouseEventArgs e) {
             _moving = false;
+
+            // TODO send data to equalizer
         }
 
         private void SelectNode(object sender, MouseEventArgs e) {
