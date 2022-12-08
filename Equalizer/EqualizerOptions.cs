@@ -135,6 +135,9 @@ namespace Equalizer
         /// <param name="e">standard UI event MouseEventArgs parameter</param>
         private void StopMovingNode(object sender, MouseEventArgs e) {
             _moving = false;
+            foreach (float data in GetNodeData(_selectedNodeIndex)) {
+                Debug.WriteLine(data);
+            }
         }
 
         // [index, freq, q, gain]
@@ -149,8 +152,8 @@ namespace Equalizer
             }
 
             // Map X and Y position from 0 to 1 linearly
-            float xRatio = (_nodes[index].Location.X - 28) / (373 - 28);
-            float yRatio = (_nodes[index].Location.Y - 30) / (250 - 30);
+            float xRatio = (float)(_nodes[index].Location.X - 28) / (373 - 28);
+            float yRatio = (float)(_nodes[index].Location.Y - 30) / (250 - 30);
 
             // Map X from 62.5 to 16000 exponentially
             float freq = (float)(62.5 * Math.Pow(2, 8 * xRatio));
@@ -160,7 +163,7 @@ namespace Equalizer
             float gain = (float)((yRatio * 2) - 1) * 20;
 
             float[] data = new float[4];
-            data[0] = (float)_nodes[index].Tag;
+            data[0] = (int)_nodes[index].Tag;
             data[1] = freq;
             data[2] = q;
             data[3] = gain;
