@@ -22,7 +22,7 @@ namespace Equalizer
 
         private bool _moving;
 
-        internal EqualizerHandler NodeChanged;
+        public Action<NodeData>? OnChanged = null;
 
         public EqualizerOptions() {
             InitializeComponent();
@@ -138,7 +138,10 @@ namespace Equalizer
         /// <param name="e">standard UI event MouseEventArgs parameter</param>
         private void StopMovingNode(object sender, MouseEventArgs e) {
             _moving = false;
-            NodeChanged.Invoke(GetNodeData(_selectedNodeIndex));
+            if (OnChanged != null)
+            {
+                OnChanged.Invoke(GetNodeData(_selectedNodeIndex));
+            }
         }
 
         // [index, freq, q, gain]
@@ -205,7 +208,10 @@ namespace Equalizer
         private void _btn_addnode_Click(object sender, EventArgs e) {
             CreateNode();
             NodeData data = GetNodeData(_selectedNodeIndex);
-            NodeChanged.Invoke(data);
+            if (OnChanged != null)
+            {
+                OnChanged.Invoke(data);
+            }
         }
 
         /// <summary>

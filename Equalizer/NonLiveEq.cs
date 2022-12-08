@@ -22,10 +22,7 @@ namespace Equalizer
         // TODO this could throw error if _sourceProvider is null
         WaveFormat ISampleProvider.WaveFormat => _sourceProvider.WaveFormat;
 
-        public NonLiveEq(WaveFormat waveFormat) {
-            // TODO could throw error if null
-            _waveFormat = waveFormat;
-
+        public NonLiveEq() {
             // Equalizer variables setup 
             _filters = new BiQuadFilter[10];
             _enabled = false;

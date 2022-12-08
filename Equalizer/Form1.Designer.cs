@@ -31,7 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(_form_eq));
             this._btn_playpause = new System.Windows.Forms.Button();
             this._tb_volume = new System.Windows.Forms.TrackBar();
-            this.equalizerOptions1 = new Equalizer.EqualizerOptions();
+            this.EQOpts = new Equalizer.EqualizerOptions();
             this._btn_eq_enable = new System.Windows.Forms.Button();
             this.lb_FolderContents = new System.Windows.Forms.ListBox();
             this._btn_selectFolder = new System.Windows.Forms.Button();
@@ -63,15 +63,15 @@
             this._tb_volume.TickStyle = System.Windows.Forms.TickStyle.Both;
             this._tb_volume.Scroll += new System.EventHandler(this._tb_volume_Scroll);
             // 
-            // equalizerOptions1
+            // EQOpts
             // 
-            this.equalizerOptions1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("equalizerOptions1.BackgroundImage")));
-            this.equalizerOptions1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.equalizerOptions1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.equalizerOptions1.Location = new System.Drawing.Point(545, 42);
-            this.equalizerOptions1.Name = "equalizerOptions1";
-            this.equalizerOptions1.Size = new System.Drawing.Size(507, 304);
-            this.equalizerOptions1.TabIndex = 6;
+            this.EQOpts.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("EQOpts.BackgroundImage")));
+            this.EQOpts.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.EQOpts.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.EQOpts.Location = new System.Drawing.Point(545, 42);
+            this.EQOpts.Name = "EQOpts";
+            this.EQOpts.Size = new System.Drawing.Size(507, 304);
+            this.EQOpts.TabIndex = 6;
             // 
             // _btn_eq_enable
             // 
@@ -136,7 +136,7 @@
             this.Controls.Add(this._btn_selectFolder);
             this.Controls.Add(this.lb_FolderContents);
             this.Controls.Add(this._btn_eq_enable);
-            this.Controls.Add(this.equalizerOptions1);
+            this.Controls.Add(this.EQOpts);
             this.Controls.Add(this._tb_volume);
             this.Controls.Add(this._btn_playpause);
             this.Name = "_form_eq";
@@ -152,7 +152,7 @@
         private Button _btn_playpause;
         private TrackBar _tb_volume;
         private NAudio.Gui.VolumeSlider volumeSlider1;
-        private EqualizerOptions equalizerOptions1;
+        private EqualizerOptions EQOpts;
         private Button _btn_eq_enable;
         private ListBox lb_FolderContents;
         private Button _btn_selectFolder;

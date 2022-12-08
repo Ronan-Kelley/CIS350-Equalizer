@@ -7,15 +7,15 @@ namespace Equalizer
         // player objects
         private AudioFileReader? _audioFile;
         private NonLiveEq _equalizer;
-        private WasapiOut? _outputDevice;
+        private WaveOutEvent? _outputDevice;
 
         // path of the currently loaded file
         private string? _curFilePath;
 
         public MediaPlayer() {
             _audioFile = null;
-            _outputDevice = new WasapiOut();
-            _equalizer = new NonLiveEq(_outputDevice.OutputWaveFormat);
+            _outputDevice = new ();
+            _equalizer = new NonLiveEq();
 
             _outputDevice.Volume = 1;
         }
@@ -34,12 +34,14 @@ namespace Equalizer
                 return false;
             }
             
-            _audioFile = new AudioFileReader(filePath);
+            _audioFile = new (filePath);
             _curFilePath = filePath;
 
             _equalizer.SetSource(_audioFile);
 
-            _outputDevice ??= new WasapiOut();
+            _outputDevice ??= new ();
+
+            _outputDevice.Volume = 1;
 
             _outputDevice.Init(_equalizer);
             return true;

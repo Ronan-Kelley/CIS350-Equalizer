@@ -39,6 +39,7 @@ namespace Equalizer
              **********************************************/
 
             _mediaPlayer = new MediaPlayer();
+            EQOpts.OnChanged = _mediaPlayer.UpdateEqualizer;
         }
 
         private void UpdateEqualizer(NodeData data) {
@@ -99,7 +100,7 @@ namespace Equalizer
 
         private void _ob_filesystem_Changed(object sender, FileSystemEventArgs e)
         {
-            _txt_folder_TextChanged(null, null);
+            _txt_folder_TextChanged(sender, e);
         }
 
         private void _btn_selectFolder_Click(object sender, EventArgs e)
@@ -140,7 +141,9 @@ namespace Equalizer
 
         private void lb_FolderContents_SelectedIndexChanged(object sender, EventArgs e)
         {
+            _mediaPlayer.Stop();
             txt_curPlaying.Text = _mediaPlayer.LoadFile(_txt_folder.Text + '\\' + lb_FolderContents.Text).ToString();
+            _mediaPlayer.Play();
         }
     }
 }
