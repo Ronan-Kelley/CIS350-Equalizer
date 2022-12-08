@@ -145,12 +145,16 @@ namespace Equalizer
                 return new float[0];
             }
 
+            // Map X and Y position from 0 to 1 linearly
             float xRatio = (_nodes[index].Location.X - 28) / (373 - 28);
             float yRatio = (_nodes[index].Location.Y - 30) / (250 - 30);
 
+            // Map X from 62.5 to 16000 exponentially
             float freq = (float)(62.5 * Math.Pow(2, 8 * xRatio));
-            float q = 0.5f; // Need some way to change q?
-            float gain = (10); // I can't do math
+            // Need some way to change q?
+            float q = 0.5f;
+            // Map from Y from -20 to 20 linearly
+            float gain = (float)((yRatio * 2) - 1) * 20;
 
             float[] data = new float[4];
             data[0] = (float)_nodes[index].Tag;
