@@ -6,17 +6,23 @@ namespace Equalizer
     {
         // player objects
         private AudioFileReader? _audioFile;
-        private NonLiveEq? _equalizer;
-        private WaveOutEvent? _outputDevice;
+        private NonLiveEq _equalizer;
+        private WasapiOut? _outputDevice;
 
         // path of the currently loaded file
         private string? _curFilePath;
 
         public MediaPlayer() {
             _audioFile = null;
-            _equalizer = null;
-            _outputDevice = null;
+            _outputDevice = new WasapiOut();
+            _equalizer = new NonLiveEq(_outputDevice.OutputWaveFormat);
+
+            _outputDevice.Volume = 1;
         }
+
+        /***************************************************
+         * Function to load initial audio data from file
+         **************************************************/
 
         public bool LoadFile(string filePath) {
             // ensure file isn't already loaded
@@ -24,31 +30,56 @@ namespace Equalizer
                 return true;
             }
 
-            // initialize the output device
-            if (_outputDevice == null) {
-                // create the waveout event
-                _outputDevice = new WaveOutEvent();
-                // set up a handler for the PlaybackStopped event (defined below)
-                _outputDevice.PlaybackStopped += OnPlaybackStopped;
-                _outputDevice.Volume = 1;
-            }
-            // initialize the audio file if the path exists
-            if (File.Exists(filePath)) {
-                _audioFile = new AudioFileReader(filePath);
-                _curFilePath = filePath;
-                if (_equalizer == null) {
-                    _equalizer = new NonLiveEq(_audioFile);
-                } else {
-                    _equalizer.SetSource(_audioFile);
-                }
-                _outputDevice.Init(_equalizer);
-            } else {
-                Stop();
+            if (!File.Exists(filePath)) {
                 return false;
             }
+            
+            _audioFile = new AudioFileReader(filePath);
+            _curFilePath = filePath;
 
+            _equalizer.SetSource(_audioFile);
+
+            if (_outputDevice == null) {
+                _outputDevice = new WasapiOut();
+            }
+
+            _outputDevice.Init(_equalizer);
             return true;
         }
+
+        /***************************************************
+         * Functions to modify audio equalizer / filters
+         **************************************************/
+
+        public void EnableEqualizer() {
+            _equalizer.EnableFilter();
+        }
+
+        public void DisableEqualizer() {
+            _equalizer.DisableFilter();
+        }
+
+        public void UpdateEqualizer(NodeData data) {
+            // TODO this could potentially have bad errors,
+            // errors shouldn't be normally possible though,
+            // so for now it should be fine
+
+            // This case occurs when a new node was created
+            if (data.GetIndex() == _equalizer.GetNumOfFilters()) {
+                _equalizer.AddFilter(data.GetFreq(), data.GetQ(), data.GetGain());
+            }
+
+            // This is when an existing node is changed
+            if (data.GetIndex() < _equalizer.GetNumOfFilters()) {
+                _equalizer.SetFilter(data.GetIndex(), data.GetFreq(), data.GetQ(), data.GetGain());
+            }
+
+            // Any other case is ignored, which could case awful errors, but hey, who cares???
+        }
+
+        /***************************************************
+         * Functions to control and check audio playback
+         **************************************************/
 
         public void Play() {
             if (_outputDevice != null) {
@@ -78,24 +109,6 @@ namespace Equalizer
             _curFilePath = null;
         }
 
-        public bool EnableEqualizer() {
-            if (_equalizer == null) {
-                return false;
-            }
-
-            _equalizer.EnableFilter();
-            return true;
-        }
-
-        public bool DisableEqualizer() {
-            if (_equalizer == null) {
-                return false;
-            }
-
-            _equalizer.DisableFilter();
-            return true;
-        }
-
         public void setVolumePercentage(float volume) {
             // clamp passed value
             if (volume > 100f) {
@@ -122,13 +135,6 @@ namespace Equalizer
             if (_audioFile != null) {
                 _audioFile.Position = (long)(_audioFile.Length / 100 * (percentDone));
             }
-        }
-
-        public bool isReady() {
-            return (_outputDevice != null && _audioFile != null);
-        }
-
-        private void OnPlaybackStopped(object? sender, StoppedEventArgs e) {
         }
     }
 }

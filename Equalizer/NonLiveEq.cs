@@ -5,12 +5,14 @@ using System.DirectoryServices.ActiveDirectory;
 using System;
 using NAudio.MediaFoundation;
 using System.Security.Cryptography.X509Certificates;
+using NAudio.Wave.SampleProviders;
 
 namespace Equalizer
 {
     internal class NonLiveEq : ISampleProvider
     {
         private ISampleProvider _sourceProvider;
+        private WaveFormat _waveFormat;
 
         // Filter variables
         private BiQuadFilter[] _filters;
@@ -20,28 +22,27 @@ namespace Equalizer
         // TODO this could throw error if _sourceProvider is null
         WaveFormat ISampleProvider.WaveFormat => _sourceProvider.WaveFormat;
 
-        public NonLiveEq(ISampleProvider sourceProvider) {
+        public NonLiveEq(WaveFormat waveFormat) {
             // TODO could throw error if null
-            _sourceProvider = sourceProvider;
+            _waveFormat = waveFormat;
 
             // Equalizer variables setup 
             _filters = new BiQuadFilter[10];
             _enabled = false;
             _numOfFilters = 0;
-
-            // For testing EQ
-            AddFilter(1000, 0.5f, 10);
         }
 
         public void SetSource(ISampleProvider newSourceProvider) {
-            if (newSourceProvider == null) {
-                return;
-            }
-
             _sourceProvider = newSourceProvider;
+            _waveFormat = _sourceProvider.WaveFormat;
         }
 
         public int Read(float[] buffer, int offset, int count) {
+            // TODO I have no idea if this is a good idea
+            if (_sourceProvider == null) {
+                return 0;
+            }
+
             int samplesRead = _sourceProvider.Read(buffer, offset, count);
 
             if (!_enabled) {
@@ -74,20 +75,20 @@ namespace Equalizer
             if (index < 0 || index >= _numOfFilters) {
                 return; //TODO error handeling?
             }
-            _filters[index].SetPeakingEq(_sourceProvider.WaveFormat.SampleRate, centerFreq, q, dbGain);
+            _filters[index].SetPeakingEq(_waveFormat.SampleRate, centerFreq, q, dbGain);
         }
 
         public void AddFilter(float centerFreq, float q, float dbGain) {
             if (_numOfFilters == 10) {
                 return;
             }
-            _filters[_numOfFilters] = BiQuadFilter.PeakingEQ(_sourceProvider.WaveFormat.SampleRate, centerFreq, q, dbGain);
+            _filters[_numOfFilters] = BiQuadFilter.PeakingEQ(_waveFormat.SampleRate, centerFreq, q, dbGain);
             _numOfFilters++;
         }
 
         public void RemoveFilter(int index) {
             if (index < 0 || index >= _numOfFilters) {
-                return; //TODO error handeling?
+                return;
             }
 
             // Shift all other filters in array
@@ -113,6 +114,10 @@ namespace Equalizer
         /// </summary>
         public void DisableFilter() {
             _enabled = false;
+        }
+
+        public int GetNumOfFilters() {
+            return _numOfFilters;
         }
     }
 }
