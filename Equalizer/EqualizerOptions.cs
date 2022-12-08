@@ -144,10 +144,13 @@ namespace Equalizer
         /// map the position of a node to the band values it represents
         /// </summary>
         /// <param name="index">index of the node to map</param>
-        /// <returns></returns>
-        public float[] GetNodeData(int index) {
+        /// <returns>a NodeData struct containing the mapped values</returns>
+        public NodeData GetNodeData(int index) {
+            NodeData nodeData = new();
+
+            // if the index is out of bounds, return an empty NodeData struct
             if (index < 0 || index >= _numOfNodes) {
-                return new float[0];
+                return nodeData;
             }
 
             // Map X and Y position from 0 to 1 linearly
@@ -161,13 +164,13 @@ namespace Equalizer
             // Map from Y from -20 to 20 linearly
             float gain = (float)((yRatio * 2) - 1) * 20;
 
-            float[] data = new float[4];
-            data[0] = (int)_nodes[index].Tag;
-            data[1] = freq;
-            data[2] = q;
-            data[3] = gain;
+            nodeData
+                .SetTag((byte)_nodes[index].Tag)
+                .SetFreq(freq)
+                .SetQ(q)
+                .SetGain(gain);
 
-            return data;
+            return nodeData;
         }
 
         /// <summary>
