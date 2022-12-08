@@ -28,16 +28,15 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(_form_eq));
             this._txt_fileName = new System.Windows.Forms.TextBox();
             this._btn_browse = new System.Windows.Forms.Button();
             this._musicFileDialog = new System.Windows.Forms.OpenFileDialog();
             this._btn_playpause = new System.Windows.Forms.Button();
             this._tb_volume = new System.Windows.Forms.TrackBar();
-            this._btn_eq_enable = new System.Windows.Forms.Button();
-            this._tb_eq_freq = new System.Windows.Forms.TrackBar();
             this.equalizerOptions1 = new Equalizer.EqualizerOptions();
+            this._btn_eq_enable = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this._tb_volume)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this._tb_eq_freq)).BeginInit();
             this.SuspendLayout();
             // 
             // _txt_fileName
@@ -84,45 +83,33 @@
             this._tb_volume.TickStyle = System.Windows.Forms.TickStyle.Both;
             this._tb_volume.Scroll += new System.EventHandler(this._tb_volume_Scroll);
             // 
-            // _btn_eq_enable
-            // 
-            this._btn_eq_enable.Location = new System.Drawing.Point(438, 497);
-            this._btn_eq_enable.Margin = new System.Windows.Forms.Padding(5);
-            this._btn_eq_enable.Name = "_btn_eq_enable";
-            this._btn_eq_enable.Size = new System.Drawing.Size(256, 30);
-            this._btn_eq_enable.TabIndex = 4;
-            this._btn_eq_enable.Tag = "";
-            this._btn_eq_enable.Text = "Enable EQ";
-            this._btn_eq_enable.UseVisualStyleBackColor = true;
-            this._btn_eq_enable.Click += new System.EventHandler(this._btn_eq_enable_Click);
-            // 
-            // _tb_eq_freq
-            // 
-            this._tb_eq_freq.Location = new System.Drawing.Point(348, 432);
-            this._tb_eq_freq.Margin = new System.Windows.Forms.Padding(5);
-            this._tb_eq_freq.Name = "_tb_eq_freq";
-            this._tb_eq_freq.Size = new System.Drawing.Size(400, 45);
-            this._tb_eq_freq.TabIndex = 5;
-            this._tb_eq_freq.TickStyle = System.Windows.Forms.TickStyle.Both;
-            this._tb_eq_freq.Value = 5;
-            this._tb_eq_freq.ValueChanged += new System.EventHandler(this._tb_eq_freq_ValueChanged);
-            // 
             // equalizerOptions1
             // 
+            this.equalizerOptions1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("equalizerOptions1.BackgroundImage")));
+            this.equalizerOptions1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.equalizerOptions1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.equalizerOptions1.Location = new System.Drawing.Point(273, 82);
             this.equalizerOptions1.Name = "equalizerOptions1";
             this.equalizerOptions1.Size = new System.Drawing.Size(498, 298);
             this.equalizerOptions1.TabIndex = 6;
             // 
+            // _btn_eq_enable
+            // 
+            this._btn_eq_enable.Location = new System.Drawing.Point(465, 386);
+            this._btn_eq_enable.Name = "_btn_eq_enable";
+            this._btn_eq_enable.Size = new System.Drawing.Size(115, 31);
+            this._btn_eq_enable.TabIndex = 7;
+            this._btn_eq_enable.Text = "Enable";
+            this._btn_eq_enable.UseVisualStyleBackColor = true;
+            this._btn_eq_enable.Click += new System.EventHandler(this._btn_eq_enable_Click_1);
+            // 
             // _form_eq
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1064, 601);
-            this.Controls.Add(this.equalizerOptions1);
-            this.Controls.Add(this._tb_eq_freq);
+            this.ClientSize = new System.Drawing.Size(1064, 429);
             this.Controls.Add(this._btn_eq_enable);
+            this.Controls.Add(this.equalizerOptions1);
             this.Controls.Add(this._tb_volume);
             this.Controls.Add(this._btn_playpause);
             this.Controls.Add(this._btn_browse);
@@ -130,7 +117,6 @@
             this.Name = "_form_eq";
             this.Text = "Equalizer Project";
             ((System.ComponentModel.ISupportInitialize)(this._tb_volume)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this._tb_eq_freq)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -143,9 +129,8 @@
         private OpenFileDialog _musicFileDialog;
         private Button _btn_playpause;
         private TrackBar _tb_volume;
-        private Button _btn_eq_enable;
-        private TrackBar _tb_eq_freq;
         private NAudio.Gui.VolumeSlider volumeSlider1;
         private EqualizerOptions equalizerOptions1;
+        private Button _btn_eq_enable;
     }
 }

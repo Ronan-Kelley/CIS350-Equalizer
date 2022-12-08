@@ -31,7 +31,6 @@ namespace Equalizer
 
             // For testing EQ
             AddFilter(1000, 0.5f, 10);
-            EnableFilter();
         }
 
         public void SetSource(ISampleProvider newSourceProvider) {

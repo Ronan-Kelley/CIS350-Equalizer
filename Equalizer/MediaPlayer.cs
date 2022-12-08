@@ -78,6 +78,24 @@ namespace Equalizer
             _curFilePath = null;
         }
 
+        public bool EnableEqualizer() {
+            if (_equalizer == null) {
+                return false;
+            }
+
+            _equalizer.EnableFilter();
+            return true;
+        }
+
+        public bool DisableEqualizer() {
+            if (_equalizer == null) {
+                return false;
+            }
+
+            _equalizer.DisableFilter();
+            return true;
+        }
+
         public void setVolumePercentage(float volume) {
             // clamp passed value
             if (volume > 100f) {

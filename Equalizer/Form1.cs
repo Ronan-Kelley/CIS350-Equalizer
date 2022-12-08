@@ -16,7 +16,6 @@ namespace Equalizer
 
         // Audio playback and altering
         private MediaPlayer _mediaPlayer;
-        private NonLiveEq _eq;
 
         public _form_eq() {
             InitializeComponent();
@@ -121,38 +120,22 @@ namespace Equalizer
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void _btn_eq_enable_Click(object sender, EventArgs e) {
+        private void _btn_eq_enable_Click_1(object sender, EventArgs e) {
             var btn = sender as Button;
             if (btn == null)
             {
                 return;
             }
-            if (btn.Text.Equals("Enable EQ")) {
-                //_rteq.EnableFilter();
-                btn.Text = "Disable EQ";
-            } else {
-                //_rteq.DisableFilter();
-                btn.Text = "Enable EQ";
-            }
-        }
 
-        /// <summary>
-        /// Maps trackbar value (0 to 10) to an audio freq (50 to 16000)
-        /// and sets that to be the live EQ center frequency.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void _tb_eq_freq_ValueChanged(object sender, EventArgs e) {
-            var bar = sender as TrackBar;
-            if (bar == null)
-            {
-                return;
+            if (btn.Text.Equals("Enable EQ")) {
+                if (_mediaPlayer.EnableEqualizer()) {
+                    btn.Text = "Disable EQ";
+                }
+            } else {
+                if (_mediaPlayer.DisableEqualizer()) {
+                    btn.Text = "Enable EQ";
+                }
             }
-            var eqMin = 50;
-            var eqMax = 16000;
-            var percent = (float)bar.Value / (float)bar.Maximum;
-            var finalEQFreq = eqMin + (percent * (eqMax - eqMin));
-            //_rteq.SetFilter(finalEQFreq, _rteq.GetQ(), _rteq.GetGain());
         }
     }
 }
