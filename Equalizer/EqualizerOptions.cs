@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Dynamic;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -81,7 +82,6 @@ namespace Equalizer
                 newPos.X = Math.Clamp(newPos.X - _nodes[_selectedNodeIndex].Width / 2, 28, 373);
                 newPos.Y = Math.Clamp(newPos.Y - _nodes[_selectedNodeIndex].Height / 2, 30, 250);
                 _nodes[_selectedNodeIndex].Location = newPos;
-                Debug.WriteLine(newPos);
             }
         }
 
@@ -92,8 +92,29 @@ namespace Equalizer
 
         private void StopMovingNode(object sender, MouseEventArgs e) {
             _moving = false;
+        }
 
-            // TODO send data to equalizer
+        // [index, freq, q, gain]
+        // I don't know what I'm doing anymore just ignore this code please
+        public float[] GetNodeData(int index) {
+            if (index < 0 || index >= _numOfNodes) {
+                return new float[0];
+            }
+
+            float xRatio = (_nodes[index].Location.X - 28) / (373 - 28);
+            float yRatio = (_nodes[index].Location.Y - 30) / (250 - 30);
+
+            float freq = (float)(62.5 * Math.Pow(2, 8 * xRatio));
+            float q = 0.5f; // Need some way to change q?
+            float gain = (10); // I can't do math
+
+            float[] data = new float[4];
+            data[0] = (float)_nodes[index].Tag;
+            data[1] = freq;
+            data[2] = q;
+            data[3] = gain;
+
+            return data;
         }
 
         private void SelectNode(object sender, MouseEventArgs e) {
