@@ -9,7 +9,7 @@
         private bool _IsEmpty;
 
         // vars to hold respective datapoints
-        private byte Tag;
+        private int Index;
         private float Freq;
         private float Q;
         private float Gain;
@@ -20,7 +20,7 @@
         public NodeData()
         {
             _IsEmpty = true;
-            Tag = 0;
+            Index = 0;
             Freq = 0;
             Q = 0;
             Gain = 0;
@@ -29,35 +29,35 @@
         /// <summary>
         /// instantiate a full NodeData struct
         /// </summary>
-        /// <param name="Tag">Tag value</param>
+        /// <param name="Index">Index value</param>
         /// <param name="Freq">Frequency value</param>
         /// <param name="Q">Q value</param>
         /// <param name="Gain">Gain value</param>
-        public NodeData(byte Tag, float Freq, float Q, float Gain)
+        public NodeData(int Index, float Freq, float Q, float Gain)
         {
             _IsEmpty = false;
-            this.Tag = Tag;
+            this.Index = Index;
             this.Freq = Freq;
             this.Q = Q;
             this.Gain = Gain;
         }
 
         /// <summary>
-        /// set the tag value of the node
+        /// set the Index value of the node
         /// </summary>
-        /// <param name="Tag">value to set</param>
+        /// <param name="Index">value to set</param>
         /// <returns>reference to self for chain calls</returns>
-        public NodeData SetTag(byte Tag)
+        public NodeData SetIndex(int Index)
         {
             _IsEmpty = false;
-            this.Tag = Tag;
+            this.Index = Index;
             return this;
         }
 
         /// <summary>
         /// set the frequency value of the node
         /// </summary>
-        /// <param name="Tag">value to set</param>
+        /// <param name="Index">value to set</param>
         /// <returns>reference to self for chain calls</returns>
         public NodeData SetFreq(float Freq)
         {
@@ -69,7 +69,7 @@
         /// <summary>
         /// set the Q value of the node
         /// </summary>
-        /// <param name="Tag">value to set</param>
+        /// <param name="Index">value to set</param>
         /// <returns>reference to self for chain calls</returns>
         public NodeData SetQ(float Q)
         {
@@ -81,7 +81,7 @@
         /// <summary>
         /// set the gain value of the node
         /// </summary>
-        /// <param name="Tag">value to set</param>
+        /// <param name="Index">value to set</param>
         /// <returns>reference to self for chain calls</returns>
         public NodeData SetGain(float Gain)
         {
@@ -91,12 +91,12 @@
         }
 
         /// <summary>
-        /// get the value of the node's tag
+        /// get the value of the node's index
         /// </summary>
-        /// <returns>the tag</returns>
-        public byte GetTag()
+        /// <returns>the index</returns>
+        public int GetIndex()
         {
-            return Tag;
+            return Index;
         }
 
         /// <summary>
