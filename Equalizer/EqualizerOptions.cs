@@ -138,8 +138,11 @@ namespace Equalizer
         }
 
         // [index, freq, q, gain]
-        // I don't know what I'm doing anymore just ignore this code please
-        // TODO comment this better :^)
+        /// <summary>
+        /// map the position of a node to the band values it represents
+        /// </summary>
+        /// <param name="index">index of the node to map</param>
+        /// <returns></returns>
         public float[] GetNodeData(int index) {
             if (index < 0 || index >= _numOfNodes) {
                 return new float[0];
