@@ -32,6 +32,9 @@ namespace Equalizer
             _moving = false;
         }
 
+        /// <summary>
+        /// create and register a new node
+        /// </summary>
         private void CreateNode() {
             if (_numOfNodes == 10) {
                 return;
@@ -47,55 +50,96 @@ namespace Equalizer
             // Adding node
             Controls.Add(newNode);
             _nodes[_numOfNodes] = newNode; // could add error checking here
+
+            // node book-keeping
             _numOfNodes++;
         }
 
+        /// <summary>
+        /// standard button factory method
+        /// </summary>
+        /// <returns>new button</returns>
         private Button CreateButton() {
-            Button button = new();
-            button.Location = new Point(204, 140); // Scary magic numbers
-            button.Name = "newNode";
-            button.Size = new Size(15, 15);
-            button.UseVisualStyleBackColor = true;
+            Button button = new()
+            {
+                Location = new Point(204, 140), // Scary magic numbers
+                Name = "newNode",
+                Size = new Size(15, 15),
+                UseVisualStyleBackColor = true
+            };
             return button;
         }
 
+        /// <summary>
+        /// delete a node at the given index
+        /// 
+        /// if there does not exist a node at the given index,
+        /// or the index given is out of bounds, the function
+        /// will do nothing and exit.
+        /// </summary>
+        /// <param name="index"></param>
         private void DeleteNode(int index) {
+            // sanity check: is the index valid?
             if (index < 0 || index >= _numOfNodes) {
                 return;
             }
 
+            // delete the requested node
             Controls.Remove(_nodes[index]);
 
+            // re-order the array such that the nodes are
+            // placed one after another
             while (index < _numOfNodes - 1) {
                 _nodes[index] = _nodes[index + 1];
                 _nodes[index].Tag = index;
                 index++;
             }
 
+            // update node book keeping
             _numOfNodes--;
+            // reset selected node index
             _selectedNodeIndex = 0;
         }
 
+        /// <summary>
+        /// allows for movement of the node; intended to be used by UI event system
+        /// </summary>
+        /// <param name="sender">standard UI event sender parameter</param>
+        /// <param name="e"> standard UI event MouseEventArgs parameter</param>
         private void MoveNode(object sender, MouseEventArgs e) {
+            // only update position if the node is moving
             if (_moving) {
+                // calculate the new position
                 Point newPos = PointToClient(Cursor.Position);
+                // clamp the new position to acceptable bounds
                 newPos.X = Math.Clamp(newPos.X - _nodes[_selectedNodeIndex].Width / 2, 28, 373);
                 newPos.Y = Math.Clamp(newPos.Y - _nodes[_selectedNodeIndex].Height / 2, 30, 250);
+                // update the position
                 _nodes[_selectedNodeIndex].Location = newPos;
             }
         }
 
-        // I don't honestly know why we need this, but it won't compile without it
-        private void MoveNode(object senedr, DragEventArgs e) {
+        /// <summary>
+        /// not implemented; included due to object oriented contract
+        /// </summary>
+        /// <param name="sender">standard UI event sender parameter</param>
+        /// <param name="e">standard UI event DragEventsArgs parameter</param>
+        private void MoveNode(object sender, DragEventArgs e) {
             
         }
 
+        /// <summary>
+        /// enable nodes to stop moving; intended to be used by UI event system
+        /// </summary>
+        /// <param name="sender">standard UI event sender parameter</param>
+        /// <param name="e">standard UI event MouseEventArgs parameter</param>
         private void StopMovingNode(object sender, MouseEventArgs e) {
             _moving = false;
         }
 
         // [index, freq, q, gain]
         // I don't know what I'm doing anymore just ignore this code please
+        // TODO comment this better :^)
         public float[] GetNodeData(int index) {
             if (index < 0 || index >= _numOfNodes) {
                 return new float[0];
@@ -117,6 +161,11 @@ namespace Equalizer
             return data;
         }
 
+        /// <summary>
+        /// enable the selection of individual nodes; intended to be used by UI event system
+        /// </summary>
+        /// <param name="sender">standard UI event sender parameter</param>
+        /// <param name="e">standard UI event MouseEventArgs parameter</param>
         private void SelectNode(object sender, MouseEventArgs e) {
             Button? node = sender as Button;
             if (node == null) {
@@ -133,16 +182,29 @@ namespace Equalizer
         }
 
 
-
+        /// <summary>
+        /// register the callback function for the "add node" button so that it does
+        /// as its name suggests
+        /// </summary>
+        /// <param name="sender">standard UI event sender parameter</param>
+        /// <param name="e">standard UI event EventArgs parameter</param>
         private void _btn_addnode_Click(object sender, EventArgs e) {
             CreateNode();
         }
 
+        /// <summary>
+        /// register a callback function for the "delete node" button so that it
+        /// does as its name suggests
+        /// </summary>
+        /// <param name="sender">standard UI event sender parameter</param>
+        /// <param name="e">standard UI event EventArgs parameter</param>
         private void _btn_delnode_Click(object sender, EventArgs e) {
+            // ensure at least one node exists to delete
             if (_numOfNodes <= 0) {
                 return;
             }
 
+            // delete the selected node
             DeleteNode(_selectedNodeIndex);
         }
     }
