@@ -22,6 +22,8 @@ namespace Equalizer
 
         private bool _moving;
 
+        internal EqualizerHandler NodeChanged;
+
         public EqualizerOptions() {
             InitializeComponent();
             
@@ -30,6 +32,21 @@ namespace Equalizer
             _selectedNodeIndex = 0;
             _numOfNodes = 0;
             _moving = false;
+        }
+
+        /// <summary>
+        /// standard button factory method
+        /// </summary>
+        /// <returns>new button</returns>
+        private Button CreateButton() {
+            Button button = new()
+            {
+                Location = new Point(204, 140), // Scary magic numbers
+                Name = "newNode",
+                Size = new Size(15, 15),
+                UseVisualStyleBackColor = true
+            };
+            return button;
         }
 
         /// <summary>
@@ -47,27 +64,13 @@ namespace Equalizer
             newNode.MouseMove += new MouseEventHandler(MoveNode);
             newNode.MouseUp += new MouseEventHandler(StopMovingNode);
 
-            // Adding node
-            Controls.Add(newNode);
+            // Adding node and setting it as selected
             _nodes[_numOfNodes] = newNode; // could add error checking here
+            _selectedNodeIndex = _numOfNodes;
+            Controls.Add(newNode);
 
             // node book-keeping
             _numOfNodes++;
-        }
-
-        /// <summary>
-        /// standard button factory method
-        /// </summary>
-        /// <returns>new button</returns>
-        private Button CreateButton() {
-            Button button = new()
-            {
-                Location = new Point(204, 140), // Scary magic numbers
-                Name = "newNode",
-                Size = new Size(15, 15),
-                UseVisualStyleBackColor = true
-            };
-            return button;
         }
 
         /// <summary>
@@ -135,8 +138,7 @@ namespace Equalizer
         /// <param name="e">standard UI event MouseEventArgs parameter</param>
         private void StopMovingNode(object sender, MouseEventArgs e) {
             _moving = false;
-
-            // use GetNodeData of _selectedNode to update Equalizer
+            NodeChanged.Invoke(GetNodeData(_selectedNodeIndex));
         }
 
         // [index, freq, q, gain]
@@ -164,11 +166,11 @@ namespace Equalizer
             // Map from Y from -20 to 20 linearly
             float gain = (float)((yRatio * 2) - 1) * 20;
 
-            nodeData
-                .SetTag((byte)_nodes[index].Tag)
-                .SetFreq(freq)
-                .SetQ(q)
-                .SetGain(gain);
+            // I have no idea why it wouldn't work togther, but it wouldn't for me
+            nodeData.SetIndex((int)_nodes[index].Tag);
+            nodeData.SetFreq(freq);
+            nodeData.SetQ(q);
+            nodeData.SetGain(gain);
 
             return nodeData;
         }
@@ -202,6 +204,8 @@ namespace Equalizer
         /// <param name="e">standard UI event EventArgs parameter</param>
         private void _btn_addnode_Click(object sender, EventArgs e) {
             CreateNode();
+            NodeData data = GetNodeData(_selectedNodeIndex);
+            NodeChanged.Invoke(data);
         }
 
         /// <summary>
