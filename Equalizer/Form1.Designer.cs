@@ -92,6 +92,7 @@
             this.equalizerOptions1.Name = "equalizerOptions1";
             this.equalizerOptions1.Size = new System.Drawing.Size(498, 298);
             this.equalizerOptions1.TabIndex = 6;
+            this.equalizerOptions1.NodeChanged += new EqualizerHandler(this.UpdateEqualizer);
             // 
             // _btn_eq_enable
             // 

@@ -1,5 +1,6 @@
 
 using NAudio.Wave;
+using System.Diagnostics;
 
 namespace Equalizer
 {
@@ -60,6 +61,10 @@ namespace Equalizer
              **********************************************/
 
             _mediaPlayer = new MediaPlayer();
+        }
+
+        private void UpdateEqualizer(NodeData data) {
+            _mediaPlayer.UpdateEqualizer(data);
         }
 
         /// <summary>
@@ -128,13 +133,11 @@ namespace Equalizer
             }
 
             if (btn.Text.Equals("Enable EQ")) {
-                if (_mediaPlayer.EnableEqualizer()) {
-                    btn.Text = "Disable EQ";
-                }
+                _mediaPlayer.EnableEqualizer();
+                btn.Text = "Disable EQ";
             } else {
-                if (_mediaPlayer.DisableEqualizer()) {
-                    btn.Text = "Enable EQ";
-                }
+                _mediaPlayer.DisableEqualizer();
+                btn.Text = "Enable EQ";
             }
         }
     }
