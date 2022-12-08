@@ -99,7 +99,7 @@
             this._btn_eq_enable.Name = "_btn_eq_enable";
             this._btn_eq_enable.Size = new System.Drawing.Size(115, 31);
             this._btn_eq_enable.TabIndex = 7;
-            this._btn_eq_enable.Text = "Enable";
+            this._btn_eq_enable.Text = "Enable EQ";
             this._btn_eq_enable.UseVisualStyleBackColor = true;
             this._btn_eq_enable.Click += new System.EventHandler(this._btn_eq_enable_Click_1);
             // 
