@@ -135,9 +135,8 @@ namespace Equalizer
         /// <param name="e">standard UI event MouseEventArgs parameter</param>
         private void StopMovingNode(object sender, MouseEventArgs e) {
             _moving = false;
-            foreach (float data in GetNodeData(_selectedNodeIndex)) {
-                Debug.WriteLine(data);
-            }
+
+            // use GetNodeData of _selectedNode to update Equalizer
         }
 
         // [index, freq, q, gain]
