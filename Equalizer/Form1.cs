@@ -9,7 +9,7 @@ namespace Equalizer
         // I don't know what file types are actually supported,
         // but this gives us an easy way to change what files can
         // be selected later on down the line
-        private string[] _filetypes = { "mp3", "wav", "ogg" };
+        private readonly string[] _filetypes = { "mp3", "wav", "ogg" };
 
         // constants for media button text; pause looks weird right now
         private const string _mediaPlay = "\u25B6";
@@ -35,28 +35,6 @@ namespace Equalizer
             _tb_volume.TickFrequency = 10;
 
             /***********************************************
-             * Set up file picker filters
-             **********************************************/
-            
-            // clear the file dialog filter
-            _musicFileDialog.Filter = "";
-
-            // set up the new filter based on the entries in _filetypes
-            string _filterText = "Audio Files (";
-            string _filterFilter = "";
-            foreach (var filetype in _filetypes) {
-                _filterText += $"*.{filetype},";
-                _filterFilter += $"*.{filetype};";
-            }
-
-            // fix the end of both strings before concatenating them together into one
-            _filterText = _filterText.TrimEnd(',') + ")";
-            _filterFilter = _filterFilter.TrimEnd(';');
-
-            // assign the filter to the file picker dialog
-            _musicFileDialog.Filter = _filterText + "|" + _filterFilter;
-
-            /***********************************************
              * Media Setup 
              **********************************************/
 
@@ -68,42 +46,20 @@ namespace Equalizer
         }
 
         /// <summary>
-        /// Opens a dialog menu to pick an audio file which is saved for when audio is played.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void _btn_browse_Click(object sender, EventArgs e) {
-            // open the file picker dialog when browse is clicked
-            _musicFileDialog.ShowDialog();
-        }
-
-        /// <summary>
-        /// Updates text box and saves the filename to be played.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void _musicFileDialog_FileOk(object sender, System.ComponentModel.CancelEventArgs e) {
-            // display the selected file's path
-            _txt_fileName.Text = _musicFileDialog.FileName;
-            // stop the media player
-            _mediaPlayer.Stop();
-            // ensure the play/pause button is correct
-            _btn_playpause.Text = _mediaPlay;
-        }
-
-        /// <summary>
         /// Switches between play and pause states for the button and
         /// media player.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void _btn_playpause_Click(object sender, EventArgs e) {
-            if (_btn_playpause.Text == _mediaPlay) {
+            if (_btn_playpause.Text == _mediaPlay)
+            {
                 // Play
                 _btn_playpause.Text = _mediaPause;
-                _mediaPlayer.LoadFile(_txt_fileName.Text);
                 _mediaPlayer.Play();
-            } else {
+            }
+            else
+            {
                 // pause
                 _btn_playpause.Text = _mediaPlay;
                 _mediaPlayer.Pause();
@@ -139,6 +95,52 @@ namespace Equalizer
                 _mediaPlayer.DisableEqualizer();
                 btn.Text = "Enable EQ";
             }
+        }
+
+        private void _ob_filesystem_Changed(object sender, FileSystemEventArgs e)
+        {
+            _txt_folder_TextChanged(null, null);
+        }
+
+        private void _btn_selectFolder_Click(object sender, EventArgs e)
+        {
+            // show the dialog
+            _dialog_folderSelect.ShowDialog();
+            // update the contents of _txt_folder
+            _txt_folder.Text = _dialog_folderSelect.SelectedPath;
+        }
+
+        private void _txt_folder_TextChanged(object sender, EventArgs e)
+        {
+            // get information about the directory selected
+            DirectoryInfo di = new(_txt_folder.Text);
+            // make sure the directory exists
+            if (di.Exists)
+            {
+                // clear the previously loaded items
+                lb_FolderContents.Items.Clear();
+                // iterate over the contents of the directory
+                foreach (FileInfo fi in di.GetFiles())
+                {
+                    // iterate over each file type in _filetypes
+                    foreach (string ftype in _filetypes)
+                    {
+                        // make sure the extension of the current file is one
+                        // listed in _filetypes to prevent loading things like
+                        // exe files or text files
+                        if (ftype.Equals(fi.Extension.TrimStart('.')))
+                        {
+                            // add the file to the items in the listbox
+                            lb_FolderContents.Items.Add(fi.Name);
+                        }
+                    }
+                }
+            }
+        }
+
+        private void lb_FolderContents_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            txt_curPlaying.Text = _mediaPlayer.LoadFile(_txt_folder.Text + '\\' + lb_FolderContents.Text).ToString();
         }
     }
 }

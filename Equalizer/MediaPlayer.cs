@@ -39,9 +39,7 @@ namespace Equalizer
 
             _equalizer.SetSource(_audioFile);
 
-            if (_outputDevice == null) {
-                _outputDevice = new WasapiOut();
-            }
+            _outputDevice ??= new WasapiOut();
 
             _outputDevice.Init(_equalizer);
             return true;
