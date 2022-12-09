@@ -14,10 +14,8 @@ namespace Equalizer
 
         public MediaPlayer() {
             _audioFile = null;
-            _outputDevice = new ();
+            _outputDevice = null;
             _equalizer = new NonLiveEq();
-
-            _outputDevice.Volume = 1;
         }
 
         /***************************************************
@@ -64,14 +62,22 @@ namespace Equalizer
             // errors shouldn't be normally possible though,
             // so for now it should be fine
 
+            // This is when a node was deleted
+            if (data.GetDeleted()) {
+                _equalizer.RemoveFilter(data.GetIndex());
+                return;
+            }
+            
             // This case occurs when a new node was created
             if (data.GetIndex() == _equalizer.GetNumOfFilters()) {
                 _equalizer.AddFilter(data.GetFreq(), data.GetQ(), data.GetGain());
+                return;
             }
 
             // This is when an existing node is changed
             if (data.GetIndex() < _equalizer.GetNumOfFilters()) {
                 _equalizer.SetFilter(data.GetIndex(), data.GetFreq(), data.GetQ(), data.GetGain());
+                return;
             }
 
             // Any other case is ignored, which could case awful errors, but hey, who cares???
@@ -83,10 +89,6 @@ namespace Equalizer
 
         public void Play() {
             if (_outputDevice != null) {
-                // if song is over, restart it
-                if (_audioFile != null && _audioFile.Position >= _audioFile.Length) {
-                    _audioFile.Position = 0;
-                }
                 _outputDevice.Play();
             }
         }

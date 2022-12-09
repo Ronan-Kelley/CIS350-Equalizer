@@ -143,7 +143,9 @@ namespace Equalizer
         {
             _mediaPlayer.Stop();
             txt_curPlaying.Text = _mediaPlayer.LoadFile(_txt_folder.Text + '\\' + lb_FolderContents.Text).ToString();
+            _btn_playpause.Text = _mediaPause;
             _mediaPlayer.Play();
+
         }
     }
 }

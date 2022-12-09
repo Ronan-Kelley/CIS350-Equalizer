@@ -20,13 +20,15 @@ namespace Equalizer
         private int _numOfFilters;
 
         // TODO this could throw error if _sourceProvider is null
-        WaveFormat ISampleProvider.WaveFormat => _sourceProvider.WaveFormat;
+        WaveFormat ISampleProvider.WaveFormat => _waveFormat;
 
         public NonLiveEq() {
             // Equalizer variables setup 
             _filters = new BiQuadFilter[10];
             _enabled = false;
             _numOfFilters = 0;
+
+            _waveFormat = new WasapiOut().OutputWaveFormat;
         }
 
         public void SetSource(ISampleProvider newSourceProvider) {
