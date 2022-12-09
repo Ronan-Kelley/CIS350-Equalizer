@@ -2,6 +2,12 @@
 
 namespace Equalizer
 {
+    /// <summary>
+    /// backend for media player elements
+    /// 
+    /// designed to integrate with NonLiveEq and
+    /// EqualizerOptions.
+    /// </summary>
     internal class MediaPlayer
     {
         // player objects
@@ -12,6 +18,9 @@ namespace Equalizer
         // path of the currently loaded file
         private string? _curFilePath;
 
+        /// <summary>
+        /// create a new MediaPlayer object
+        /// </summary>
         public MediaPlayer() {
             _audioFile = null;
             _outputDevice = null;
@@ -22,6 +31,13 @@ namespace Equalizer
          * Function to load initial audio data from file
          **************************************************/
 
+        /// <summary>
+        /// load an audio file based on its path.
+        /// 
+        /// error checking is done for the file's path, but not the file's type.
+        /// </summary>
+        /// <param name="filePath">path of file to load</param>
+        /// <returns>true on success, false otherwise</returns>
         public bool LoadFile(string filePath) {
             // ensure file isn't already loaded
             if (filePath == _curFilePath) {
@@ -49,21 +65,31 @@ namespace Equalizer
          * Functions to modify audio equalizer / filters
          **************************************************/
 
+        /// <summary>
+        /// enable the equalizer
+        /// 
+        /// has no effect if the equalizer is already enabled
+        /// </summary>
         public void EnableEqualizer() {
             _equalizer.EnableFilter();
         }
 
+        /// <summary>
+        /// disable the equalizer, leaving regular playback unaffected.
+        /// 
+        /// has no effect if the equalizer is already disabled.
+        /// </summary>
         public void DisableEqualizer() {
             _equalizer.DisableFilter();
         }
 
+        /// <summary>
+        /// update the equalizer settings based on node data
+        /// </summary>
+        /// <param name="data"></param>
         public void UpdateEqualizer(NodeData data) {
-            // TODO this could potentially have bad errors,
-            // errors shouldn't be normally possible though,
-            // so for now it should be fine
-
             // This is when a node was deleted
-            if (data.GetDeleted()) {
+            if (data.IsDeleted()) {
                 _equalizer.RemoveFilter(data.GetIndex());
                 return;
             }
@@ -79,26 +105,33 @@ namespace Equalizer
                 _equalizer.SetFilter(data.GetIndex(), data.GetFreq(), data.GetQ(), data.GetGain());
                 return;
             }
-
-            // Any other case is ignored, which could case awful errors, but hey, who cares???
         }
 
         /***************************************************
          * Functions to control and check audio playback
          **************************************************/
 
+        /// <summary>
+        /// resume or start playback of audio assets
+        /// </summary>
         public void Play() {
             if (_outputDevice != null) {
                 _outputDevice.Play();
             }
         }
 
+        /// <summary>
+        /// pause playback, keeping audio assets loaded
+        /// </summary>
         public void Pause() {
             if (_outputDevice != null) {
                 _outputDevice.Pause();
             }
         }
 
+        /// <summary>
+        /// stop playing and unload audio assets
+        /// </summary>
         public void Stop() {
             if (_outputDevice != null) {
                 _outputDevice.Dispose();
@@ -111,7 +144,11 @@ namespace Equalizer
             _curFilePath = null;
         }
 
-        public void setVolumePercentage(float volume) {
+        /// <summary>
+        /// set the volume for the player as a percentage
+        /// </summary>
+        /// <param name="volume">percent volume 0-100</param>
+        public void SetVolumePercentage(float volume) {
             // clamp passed value
             if (volume > 100f) {
                 volume = 100f;
@@ -125,7 +162,11 @@ namespace Equalizer
             }
         }
 
-        public void setPositionPercent(float percentDone) {
+        /// <summary>
+        /// set the position of the track in terms of percent completion
+        /// </summary>
+        /// <param name="percentDone">what percent completion to set playback to; 0 to 100</param>
+        public void SetPositionPercent(float percentDone) {
             // clamp percentDone
             if (percentDone > 100f) {
                 percentDone = 100f;

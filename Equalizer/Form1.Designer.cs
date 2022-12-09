@@ -37,10 +37,7 @@
             this._btn_selectFolder = new System.Windows.Forms.Button();
             this._txt_folder = new System.Windows.Forms.TextBox();
             this._dialog_folderSelect = new System.Windows.Forms.FolderBrowserDialog();
-            this._ob_filesystem = new System.IO.FileSystemWatcher();
-            this.txt_curPlaying = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this._tb_volume)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this._ob_filesystem)).BeginInit();
             this.SuspendLayout();
             // 
             // _btn_playpause
@@ -111,27 +108,11 @@
             this._txt_folder.TabIndex = 10;
             this._txt_folder.TextChanged += new System.EventHandler(this._txt_folder_TextChanged);
             // 
-            // _ob_filesystem
-            // 
-            this._ob_filesystem.EnableRaisingEvents = true;
-            this._ob_filesystem.SynchronizingObject = this;
-            this._ob_filesystem.Changed += new System.IO.FileSystemEventHandler(this._ob_filesystem_Changed);
-            // 
-            // txt_curPlaying
-            // 
-            this.txt_curPlaying.AutoSize = true;
-            this.txt_curPlaying.Location = new System.Drawing.Point(14, 17);
-            this.txt_curPlaying.Name = "txt_curPlaying";
-            this.txt_curPlaying.Size = new System.Drawing.Size(102, 15);
-            this.txt_curPlaying.TabIndex = 11;
-            this.txt_curPlaying.Text = "currently playing: ";
-            // 
             // _form_eq
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1064, 429);
-            this.Controls.Add(this.txt_curPlaying);
             this.Controls.Add(this._txt_folder);
             this.Controls.Add(this._btn_selectFolder);
             this.Controls.Add(this.lb_FolderContents);
@@ -142,7 +123,6 @@
             this.Name = "_form_eq";
             this.Text = "Equalizer Project";
             ((System.ComponentModel.ISupportInitialize)(this._tb_volume)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this._ob_filesystem)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -151,14 +131,11 @@
         #endregion
         private Button _btn_playpause;
         private TrackBar _tb_volume;
-        private NAudio.Gui.VolumeSlider volumeSlider1;
         private EqualizerOptions EQOpts;
         private Button _btn_eq_enable;
         private ListBox lb_FolderContents;
         private Button _btn_selectFolder;
         private TextBox _txt_folder;
         private FolderBrowserDialog _dialog_folderSelect;
-        private FileSystemWatcher _ob_filesystem;
-        private Label txt_curPlaying;
     }
 }

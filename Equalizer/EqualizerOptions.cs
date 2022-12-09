@@ -1,5 +1,9 @@
 ﻿namespace Equalizer
 {
+    /// <summary>
+    /// A winforms control item that allows for the creation and deletion of
+    /// a set up of up to 10 nodes that affect the profile of the equalizer
+    /// </summary>
     public partial class EqualizerOptions : UserControl
     {
         private Button[] _nodes;
@@ -10,6 +14,9 @@
 
         public Action<NodeData>? OnChanged = null;
 
+        /// <summary>
+        /// create a new EqualizerOptions object
+        /// </summary>
         public EqualizerOptions() {
             InitializeComponent();
 

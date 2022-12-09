@@ -1,5 +1,8 @@
 namespace Equalizer
 {
+    /// <summary>
+    /// UI implementation
+    /// </summary>
     public partial class _form_eq : Form
     {
         // I don't know what file types are actually supported,
@@ -14,6 +17,9 @@ namespace Equalizer
         // Audio playback and altering
         private MediaPlayer _mediaPlayer;
 
+        /// <summary>
+        /// create a new _form_eq form object
+        /// </summary>
         public _form_eq() {
             InitializeComponent();
 
@@ -36,10 +42,6 @@ namespace Equalizer
 
             _mediaPlayer = new MediaPlayer();
             EQOpts.OnChanged = _mediaPlayer.UpdateEqualizer;
-        }
-
-        private void UpdateEqualizer(NodeData data) {
-            _mediaPlayer.UpdateEqualizer(data);
         }
 
         /// <summary>
@@ -66,7 +68,7 @@ namespace Equalizer
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void _tb_volume_Scroll(object sender, EventArgs e) {
-            _mediaPlayer.setVolumePercentage(_tb_volume.Value);
+            _mediaPlayer.SetVolumePercentage(_tb_volume.Value);
         }
 
         /// <summary>
@@ -90,10 +92,11 @@ namespace Equalizer
             }
         }
 
-        private void _ob_filesystem_Changed(object sender, FileSystemEventArgs e) {
-            _txt_folder_TextChanged(sender, e);
-        }
-
+        /// <summary>
+        /// event-driven UI callback for select folder button's being pressed
+        /// </summary>
+        /// <param name="sender">standard UI callback sender parameter</param>
+        /// <param name="e">standard UI callback event paremeter</param>
         private void _btn_selectFolder_Click(object sender, EventArgs e) {
             // show the dialog
             _dialog_folderSelect.ShowDialog();
@@ -101,6 +104,11 @@ namespace Equalizer
             _txt_folder.Text = _dialog_folderSelect.SelectedPath;
         }
 
+        /// <summary>
+        /// event-driven UI callback for change in text of the folder path input box.
+        /// </summary>
+        /// <param name="sender">standard UI callback sender parameter</param>
+        /// <param name="e">standard UI callback event paremeter</param>
         private void _txt_folder_TextChanged(object sender, EventArgs e) {
             // get information about the directory selected
             DirectoryInfo di = new(_txt_folder.Text);
@@ -124,9 +132,13 @@ namespace Equalizer
             }
         }
 
+        /// <summary>
+        /// event-driven UI callback for change in selected index of the folder contents combobox.
+        /// </summary>
+        /// <param name="sender">standard UI callback sender parameter</param>
+        /// <param name="e">standard UI callback event paremeter</param>
         private void lb_FolderContents_SelectedIndexChanged(object sender, EventArgs e) {
             _mediaPlayer.Stop();
-            txt_curPlaying.Text = _mediaPlayer.LoadFile(_txt_folder.Text + '\\' + lb_FolderContents.Text).ToString();
             _btn_playpause.Text = _mediaPause;
             _mediaPlayer.Play();
 

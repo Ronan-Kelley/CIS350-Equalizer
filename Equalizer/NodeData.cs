@@ -90,6 +90,11 @@
             return this;
         }
 
+        /// <summary>
+        /// set the deleted flag of the node
+        /// </summary>
+        /// <param name="deleted">whether or not the node is deleted</param>
+        /// <returns>reference to self for chain calls</returns>
         public NodeData SetDeleted(bool deleted) {
             this.Deleted = deleted;
             return this;
@@ -135,7 +140,11 @@
             return _IsEmpty;
         }
 
-        public bool GetDeleted() {
+        /// <summary>
+        /// determine whether or not the node has been deleted
+        /// </summary>
+        /// <returns>true if it has been deleted, false otherwise</returns>
+        public bool IsDeleted() {
             return Deleted;
         }
     }
