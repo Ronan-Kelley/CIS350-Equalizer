@@ -13,6 +13,8 @@
         private float Freq;
         private float Q;
         private float Gain;
+
+        private bool Deleted;
         
         /// <summary>
         /// instantiate an empty NodeData struct; can be updated later with setters
@@ -24,6 +26,8 @@
             Freq = 0;
             Q = 0;
             Gain = 0;
+
+            Deleted = false;
         }
 
         /// <summary>
@@ -40,6 +44,8 @@
             this.Freq = Freq;
             this.Q = Q;
             this.Gain = Gain;
+
+            Deleted = false;
         }
 
         /// <summary>
@@ -89,6 +95,11 @@
             this.Gain = Gain;
             return this;
         }
+        
+        public NodeData SetDeleted(bool deleted) {
+            this.Deleted = deleted;
+            return this;
+        }
 
         /// <summary>
         /// get the value of the node's index
@@ -135,5 +146,8 @@
             return _IsEmpty;
         }
 
+        public bool GetDeleted() {
+            return Deleted;
+        }
     }
 }
