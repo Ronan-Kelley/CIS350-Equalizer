@@ -168,6 +168,8 @@ namespace Equalizer
             float q = 0.5f;
             // Map from Y from -20 to 20 linearly
             float gain = (float)((yRatio * 2) - 1) * 20;
+            // Need to flip since Y increases downwards in UI coordinates
+            gain *= -1;
 
             // I have no idea why it wouldn't work togther, but it wouldn't for me
             nodeData.SetIndex((int)_nodes[index].Tag);
@@ -198,7 +200,6 @@ namespace Equalizer
             _moving = true;
         }
 
-
         /// <summary>
         /// register the callback function for the "add node" button so that it does
         /// as its name suggests
@@ -226,7 +227,14 @@ namespace Equalizer
                 return;
             }
 
-            // delete the selected node
+            // remove filter from equalizer
+            if (OnChanged != null) {
+                NodeData data = GetNodeData(_selectedNodeIndex);
+                data.SetDeleted(true);
+                OnChanged.Invoke(data);
+            }
+
+            // delete the selected node from ui
             DeleteNode(_selectedNodeIndex);
         }
     }
