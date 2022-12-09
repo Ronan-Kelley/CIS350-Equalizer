@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['realtimeeq_0',['RealTimeEq',['../class_real_time_eq.html',1,'']]]
+  ['mediaplayer_0',['MediaPlayer',['../class_equalizer_1_1_media_player.html',1,'Equalizer']]]
 ];

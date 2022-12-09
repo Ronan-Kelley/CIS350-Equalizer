@@ -1,4 +1,8 @@
 var searchData=
 [
-  ['realtimeeq_0',['RealTimeEq',['../class_real_time_eq.html',1,'']]]
+  ['enableequalizer_0',['EnableEqualizer',['../class_equalizer_1_1_media_player.html#a5bfb036bc2b5b84656b90f303eb3c71e',1,'Equalizer::MediaPlayer']]],
+  ['enablefilter_1',['EnableFilter',['../class_equalizer_1_1_non_live_eq.html#acac6f17c7b8e09e015b240e3f96ea104',1,'Equalizer::NonLiveEq']]],
+  ['equalizer_2',['Equalizer',['../namespace_equalizer.html',1,'']]],
+  ['equalizeroptions_3',['EqualizerOptions',['../class_equalizer_1_1_equalizer_options.html',1,'Equalizer.EqualizerOptions'],['../class_equalizer_1_1_equalizer_options.html#aa291d0c4094cddd3a037b3cd021e968c',1,'Equalizer.EqualizerOptions.EqualizerOptions()']]],
+  ['properties_4',['Properties',['../namespace_equalizer_1_1_properties.html',1,'Equalizer']]]
 ];

@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['disablefilter_0',['DisableFilter',['../class_real_time_eq.html#a63d98119554c9d883488007db80bca18',1,'RealTimeEq']]],
-  ['dispose_1',['Dispose',['../class_equalizer_1_1__form__eq.html#af5eea1e9a78b274cc0c374c475fe308a',1,'Equalizer::_form_eq']]]
+  ['addfilter_0',['AddFilter',['../class_equalizer_1_1_non_live_eq.html#aa3dca6da5c17b5adc31968b57f30a4e4',1,'Equalizer::NonLiveEq']]]
 ];
