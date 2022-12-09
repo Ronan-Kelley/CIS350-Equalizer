@@ -1,7 +1,3 @@
-
-using NAudio.Wave;
-using System.Diagnostics;
-
 namespace Equalizer
 {
     public partial class _form_eq : Form
@@ -53,14 +49,11 @@ namespace Equalizer
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void _btn_playpause_Click(object sender, EventArgs e) {
-            if (_btn_playpause.Text == _mediaPlay)
-            {
+            if (_btn_playpause.Text == _mediaPlay) {
                 // Play
                 _btn_playpause.Text = _mediaPause;
                 _mediaPlayer.Play();
-            }
-            else
-            {
+            } else {
                 // pause
                 _btn_playpause.Text = _mediaPlay;
                 _mediaPlayer.Pause();
@@ -84,8 +77,7 @@ namespace Equalizer
         /// <param name="e"></param>
         private void _btn_eq_enable_Click_1(object sender, EventArgs e) {
             var btn = sender as Button;
-            if (btn == null)
-            {
+            if (btn == null) {
                 return;
             }
 
@@ -98,39 +90,32 @@ namespace Equalizer
             }
         }
 
-        private void _ob_filesystem_Changed(object sender, FileSystemEventArgs e)
-        {
+        private void _ob_filesystem_Changed(object sender, FileSystemEventArgs e) {
             _txt_folder_TextChanged(sender, e);
         }
 
-        private void _btn_selectFolder_Click(object sender, EventArgs e)
-        {
+        private void _btn_selectFolder_Click(object sender, EventArgs e) {
             // show the dialog
             _dialog_folderSelect.ShowDialog();
             // update the contents of _txt_folder
             _txt_folder.Text = _dialog_folderSelect.SelectedPath;
         }
 
-        private void _txt_folder_TextChanged(object sender, EventArgs e)
-        {
+        private void _txt_folder_TextChanged(object sender, EventArgs e) {
             // get information about the directory selected
             DirectoryInfo di = new(_txt_folder.Text);
             // make sure the directory exists
-            if (di.Exists)
-            {
+            if (di.Exists) {
                 // clear the previously loaded items
                 lb_FolderContents.Items.Clear();
                 // iterate over the contents of the directory
-                foreach (FileInfo fi in di.GetFiles())
-                {
+                foreach (FileInfo fi in di.GetFiles()) {
                     // iterate over each file type in _filetypes
-                    foreach (string ftype in _filetypes)
-                    {
+                    foreach (string ftype in _filetypes) {
                         // make sure the extension of the current file is one
                         // listed in _filetypes to prevent loading things like
                         // exe files or text files
-                        if (ftype.Equals(fi.Extension.TrimStart('.')))
-                        {
+                        if (ftype.Equals(fi.Extension.TrimStart('.'))) {
                             // add the file to the items in the listbox
                             lb_FolderContents.Items.Add(fi.Name);
                         }
@@ -139,8 +124,7 @@ namespace Equalizer
             }
         }
 
-        private void lb_FolderContents_SelectedIndexChanged(object sender, EventArgs e)
-        {
+        private void lb_FolderContents_SelectedIndexChanged(object sender, EventArgs e) {
             _mediaPlayer.Stop();
             txt_curPlaying.Text = _mediaPlayer.LoadFile(_txt_folder.Text + '\\' + lb_FolderContents.Text).ToString();
             _btn_playpause.Text = _mediaPause;

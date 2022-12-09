@@ -1,18 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
-using System.Drawing;
-using System.Dynamic;
-using System.Linq;
-using System.Reflection.Metadata.Ecma335;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
-namespace Equalizer
+﻿namespace Equalizer
 {
     public partial class EqualizerOptions : UserControl
     {
@@ -26,7 +12,7 @@ namespace Equalizer
 
         public EqualizerOptions() {
             InitializeComponent();
-            
+
             // Setup
             _nodes = new Button[10];
             _selectedNodeIndex = 0;
@@ -39,8 +25,7 @@ namespace Equalizer
         /// </summary>
         /// <returns>new button</returns>
         private Button CreateButton() {
-            Button button = new()
-            {
+            Button button = new() {
                 Location = new Point(204, 140), // Scary magic numbers
                 Name = "newNode",
                 Size = new Size(15, 15),
@@ -128,7 +113,7 @@ namespace Equalizer
         /// <param name="sender">standard UI event sender parameter</param>
         /// <param name="e">standard UI event DragEventsArgs parameter</param>
         private void MoveNode(object sender, DragEventArgs e) {
-            
+
         }
 
         /// <summary>
@@ -138,8 +123,7 @@ namespace Equalizer
         /// <param name="e">standard UI event MouseEventArgs parameter</param>
         private void StopMovingNode(object sender, MouseEventArgs e) {
             _moving = false;
-            if (OnChanged != null)
-            {
+            if (OnChanged != null) {
                 OnChanged.Invoke(GetNodeData(_selectedNodeIndex));
             }
         }
@@ -209,8 +193,7 @@ namespace Equalizer
         private void _btn_addnode_Click(object sender, EventArgs e) {
             CreateNode();
             NodeData data = GetNodeData(_selectedNodeIndex);
-            if (OnChanged != null)
-            {
+            if (OnChanged != null) {
                 OnChanged.Invoke(data);
             }
         }

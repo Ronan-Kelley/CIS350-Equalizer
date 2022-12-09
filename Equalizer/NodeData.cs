@@ -15,12 +15,11 @@
         private float Gain;
 
         private bool Deleted;
-        
+
         /// <summary>
         /// instantiate an empty NodeData struct; can be updated later with setters
         /// </summary>
-        public NodeData()
-        {
+        public NodeData() {
             _IsEmpty = true;
             Index = 0;
             Freq = 0;
@@ -37,8 +36,7 @@
         /// <param name="Freq">Frequency value</param>
         /// <param name="Q">Q value</param>
         /// <param name="Gain">Gain value</param>
-        public NodeData(int Index, float Freq, float Q, float Gain)
-        {
+        public NodeData(int Index, float Freq, float Q, float Gain) {
             _IsEmpty = false;
             this.Index = Index;
             this.Freq = Freq;
@@ -53,8 +51,7 @@
         /// </summary>
         /// <param name="Index">value to set</param>
         /// <returns>reference to self for chain calls</returns>
-        public NodeData SetIndex(int Index)
-        {
+        public NodeData SetIndex(int Index) {
             _IsEmpty = false;
             this.Index = Index;
             return this;
@@ -65,8 +62,7 @@
         /// </summary>
         /// <param name="Index">value to set</param>
         /// <returns>reference to self for chain calls</returns>
-        public NodeData SetFreq(float Freq)
-        {
+        public NodeData SetFreq(float Freq) {
             _IsEmpty = false;
             this.Freq = Freq;
             return this;
@@ -77,8 +73,7 @@
         /// </summary>
         /// <param name="Index">value to set</param>
         /// <returns>reference to self for chain calls</returns>
-        public NodeData SetQ(float Q)
-        {
+        public NodeData SetQ(float Q) {
             _IsEmpty = false;
             this.Q = Q;
             return this;
@@ -89,13 +84,12 @@
         /// </summary>
         /// <param name="Index">value to set</param>
         /// <returns>reference to self for chain calls</returns>
-        public NodeData SetGain(float Gain)
-        {
+        public NodeData SetGain(float Gain) {
             _IsEmpty = false;
             this.Gain = Gain;
             return this;
         }
-        
+
         public NodeData SetDeleted(bool deleted) {
             this.Deleted = deleted;
             return this;
@@ -105,8 +99,7 @@
         /// get the value of the node's index
         /// </summary>
         /// <returns>the index</returns>
-        public int GetIndex()
-        {
+        public int GetIndex() {
             return Index;
         }
 
@@ -114,8 +107,7 @@
         /// get the value of the node's frequency
         /// </summary>
         /// <returns>the frequency</returns>
-        public float GetFreq()
-        {
+        public float GetFreq() {
             return Freq;
         }
 
@@ -123,8 +115,7 @@
         /// get the value of the node's Q
         /// </summary>
         /// <returns>the Q value</returns>
-        public float GetQ()
-        {
+        public float GetQ() {
             return Q;
         }
 
@@ -132,8 +123,7 @@
         /// get the value of the node's gain
         /// </summary>
         /// <returns>the gain</returns>
-        public float GetGain()
-        {
+        public float GetGain() {
             return Gain;
         }
 
@@ -141,8 +131,7 @@
         /// determine whether or not the struct is empty
         /// </summary>
         /// <returns>true if the struct is empty, false otherwise</returns>
-        public bool IsEmpty()
-        {
+        public bool IsEmpty() {
             return _IsEmpty;
         }
 

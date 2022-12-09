@@ -31,13 +31,13 @@ namespace Equalizer
             if (!File.Exists(filePath)) {
                 return false;
             }
-            
-            _audioFile = new (filePath);
+
+            _audioFile = new(filePath);
             _curFilePath = filePath;
 
             _equalizer.SetSource(_audioFile);
 
-            _outputDevice ??= new ();
+            _outputDevice ??= new();
 
             _outputDevice.Volume = 1;
 
@@ -67,7 +67,7 @@ namespace Equalizer
                 _equalizer.RemoveFilter(data.GetIndex());
                 return;
             }
-            
+
             // This case occurs when a new node was created
             if (data.GetIndex() == _equalizer.GetNumOfFilters()) {
                 _equalizer.AddFilter(data.GetFreq(), data.GetQ(), data.GetGain());

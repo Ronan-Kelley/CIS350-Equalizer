@@ -1,11 +1,5 @@
-﻿using NAudio.CoreAudioApi;
-using NAudio.Dsp;
+﻿using NAudio.Dsp;
 using NAudio.Wave;
-using System.DirectoryServices.ActiveDirectory;
-using System;
-using NAudio.MediaFoundation;
-using System.Security.Cryptography.X509Certificates;
-using NAudio.Wave.SampleProviders;
 
 namespace Equalizer
 {
